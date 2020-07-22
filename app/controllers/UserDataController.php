@@ -1,6 +1,6 @@
 <?php
 
-namespace KevinBatdorf\controllers;
+namespace KevinBatdorf\Controllers;
 
 use KevinBatdorf\App;
 

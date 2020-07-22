@@ -1,6 +1,6 @@
 <?php
 
-namespace KevinBatdorf\routes;
+namespace KevinBatdorf\Routes;
 
 use KevinBatdorf\App;
 

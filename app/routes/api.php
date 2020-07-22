@@ -1,6 +1,6 @@
 <?php
 
-namespace KevinBatdorf\routes;
+namespace KevinBatdorf\Routes;
 
 use KevinBatdorf\App;
 
@@ -9,7 +9,7 @@ use KevinBatdorf\App;
  * 
  * @since 0.1.0
  */
-class API extends \WP_REST_Controller {
+class Api extends \WP_REST_Controller {
 
     /**
      * Namespace and version for the API

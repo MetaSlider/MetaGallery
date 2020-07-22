@@ -61,8 +61,8 @@ class App {
      */
     public static function __callStatic($name, $arguments) {
         if ( $name !== 'get' ) return;
-        if ( file_exists( dirname( __FILE__ ) . "/controllers/{$arguments[0]}Controller.php" ) ) {
-            $controller = 'KevinBatdorf\\controllers\\' . $arguments[0] . 'Controller';
+        if ( file_exists( dirname( __FILE__ ) . "/Controllers/{$arguments[0]}Controller.php" ) ) {
+            $controller = 'KevinBatdorf\\Controllers\\' . $arguments[0] . 'Controller';
             return new $controller;
         }
     }
