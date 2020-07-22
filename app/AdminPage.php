@@ -2,10 +2,19 @@
 
 namespace KevinBatdorf;
 
-if (!defined( 'ABSPATH' )) die( 'No direct access.' );
-
+/**
+ * Controller for setting up the Admin Page
+ * 
+ * @since 0.1.0
+ */
 class AdminPage {
 
+    /**
+     * Adds various actions to set up the page
+     * 
+     * @since 0.1.0
+     * @return void
+     */
     public function __construct() {
         add_action( 'admin_menu', function() {
             $this->add_admin_options_page();
@@ -24,6 +33,12 @@ class AdminPage {
         });
     }
 
+    /**
+     * Adds the main admin page
+     * 
+     * @since 0.1.0
+     * @return void
+     */
     public function add_admin_options_page() {
         add_menu_page(
             App::$name,
@@ -34,6 +49,12 @@ class AdminPage {
             'dashicons-clipboard', 99);
     }
 
+    /**
+     * Adds various JS scripts
+     * 
+     * @since 0.1.0
+     * @return void
+     */
     public function add_admin_scripts() {
         wp_enqueue_script(
             App::$slug . '-axios',

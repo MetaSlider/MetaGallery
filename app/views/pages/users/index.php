@@ -19,10 +19,10 @@ use KevinBatdorf\App; ?>
                             }, 2000)
                         }
                         }">
-                        <code
+                        <button
                             role="button"
                             title="press to copy"
-                            style="cursor:pointer"
+                            style="cursor:pointer;padding:0;border:0;"
                             @click="
                                 var range = document.createRange();
                                 range.selectNode($event.target);
@@ -30,8 +30,10 @@ use KevinBatdorf\App; ?>
                                 window.getSelection().addRange(range);
                                 copied || document.execCommand('copy')
                             "
-                            @copy.prevent="$event.clipboardData.setData('text/plain', $el.innerText);showCopied()">[<?php echo App::$slug ?>]</code>
-                        <span style="font-style:italic;margin-left:0.25rem" x-show.transition.opacity.duration.500ms="copied" x-cloak>Copied!</span>
+                            @copy.prevent="$event.clipboardData.setData('text/plain', $el.innerText);showCopied()"><code style="padding:0">[<?php echo App::$slug ?>]</code></button>
+                        <span style="font-style:italic;margin-left:0.25rem" x-show.transition.opacity.duration.500ms="copied" x-cloak>
+                            <?php _e('Copied!', App::$slug ); ?>
+                        </span>
                     </span>
                 </div>
                 <?php include dirname( __FILE__ ) . '/user-data-table.php'; ?>

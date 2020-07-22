@@ -30,7 +30,7 @@ use KevinBatdorf\App; ?>
     }"
     x-init="start"
     x-cloak>
-    <div x-ref="table" style="margin-bottom:1rem">
+    <div x-ref="table" style="margin-bottom:1rem;min-height:189px">
         <template x-if="data">
             <table style="border-collapse:collapse;width:100%">
                 <caption style="text-align:left;font-weight:bold;margin-bottom:0.5rem" x-text="data.title"></caption>
