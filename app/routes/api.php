@@ -17,7 +17,7 @@ class Api extends \WP_REST_Controller {
      * @since 0.1.0
      * @var string
      */
-	protected $namespace;
+    protected $namespace;
 
     /**
      * Sets up the namespace and hooks into WordPress
@@ -25,9 +25,9 @@ class Api extends \WP_REST_Controller {
      * @since 0.1.0
      * @return void
      */
-	public function __construct() {
+    public function __construct() {
         $this->namespace = APP::$slug . '/v1';
-		add_action( 'rest_api_init', array( $this, 'register_routes' ) );
+        add_action( 'rest_api_init', array( $this, 'register_routes' ) );
     }
 
     /**
@@ -36,7 +36,7 @@ class Api extends \WP_REST_Controller {
      * @since 0.1.0
      * @return void
      */
-	public function register_routes() {
+    public function register_routes() {
         register_rest_route( $this->namespace, '/users',
             array(
                 array(
