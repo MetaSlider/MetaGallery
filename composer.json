@@ -1,15 +1,19 @@
 {
-    "name": "kevin/developer-applicant-challenge",
-    "description": "Developer challenge plugin",
+    "name": "extendify/metagallery",
+    "description": "MetaGallery Plugin",
     "minimum-stability": "dev",
     "prefer-stable": true,
     "require": {
+        "php": ">=7.1",
+        "fzaninotto/faker": "^1.9"
     },
     "require-dev": {
+        "johnpbloch/wordpress-core": "*",
+        "phpunit/phpunit": "^9.4"
     },
     "autoload": {
         "psr-4": {
-            "KevinBatdorf\\": "app/"
+            "Extendify\\MetaGallery\\": "app/"
         }
     },
     "authors": [
