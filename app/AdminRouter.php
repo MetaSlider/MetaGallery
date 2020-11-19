@@ -16,6 +16,8 @@ class AdminRouter
 
     protected static $instance = null;
 
+    protected $parent = '';
+
     public $routes = [];
 
     /**
@@ -24,7 +26,6 @@ class AdminRouter
      * @since 0.1.0
      * @return void
      */
-
     public function __construct()
     {
         if (self::$instance) {
@@ -42,6 +43,7 @@ class AdminRouter
         }
         $this->routes[$endpoint . $namespace] = $callback;
     }
+
     public function registerHandler()
     {
         if (!$this->checkAdminPageIsOurs()) {
@@ -76,21 +78,40 @@ class AdminRouter
     {
         \add_action('admin_menu', function () {
             $this->addAdminPage();
-        });
+        }, 9999);
+
         \add_action('admin_enqueue_scripts', function ($hook) {
+            $this->addGlobalScripts();
             if (!$this->checkAdminPageIsOurs($hook)) {
                 return;
             }
-            $this->addScripts();
+            $this->addScopedScripts();
         });
+
         \add_action('admin_head', function () {
+            $this->addGlobalInlineScripts();
             if (!$this->checkAdminPageIsOurs()) {
                 return;
             }
-            // helper style for Alpinejs
-            echo '<style>[x-cloak] { display: none; }</style>';
+            $this->addScopedInlineScripts();
         });
     }
+
+
+
+    /**
+     * Lets sideloading as a subpage from another plugin
+     *
+     * @since 0.1.0
+     * @var string $page - The parent page
+     * @return self
+     */
+    public function sideload($page)
+    {
+        $this->parent = $page;
+        return $this;
+    }
+
 
     /**
      * Adds the main admin page
@@ -100,15 +121,18 @@ class AdminRouter
      */
     public function addAdminPage()
     {
-        \add_menu_page(
+        $addPage = $this->parent ? '\add_submenu_page' : '\add_menu_page';
+        $args = [
             App::$name,
             App::$name,
             App::$capability,
             App::$slug,
             '\Extendify\MetaGallery\View::admin',
-            'dashicons-clipboard',
-            99
-        );
+        ];
+        if ($this->parent) {
+            array_unshift($args, $this->parent);
+        }
+        $addPage(...$args);
     }
 
     /**
@@ -132,7 +156,7 @@ class AdminRouter
      * @since 0.1.0
      * @return void
      */
-    public function addScripts()
+    public function addScopedScripts()
     {
         \wp_enqueue_script(
             App::$slug . '-axios',
@@ -149,4 +173,54 @@ class AdminRouter
             true
         );
     }
+
+    /**
+     * Adds various inline JS/CSS scripts directly to the head
+     *
+     * @since 0.1.0
+     * @return void
+     */
+    public function addScopedInlineScripts()
+    {
+        // helper style for Alpinejs
+        echo '<style>[x-cloak] { display: none; }</style>';
+    }
+
+    /**
+     * Adds various JS scripts to EVERY admin page
+     *
+     * @since 0.1.0
+     * @return void
+     */
+    public function addGlobalScripts()
+    {
+        // \wp_enqueue_script(
+        //     App::$slug . '-alpine',
+        //     'https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js',
+        //     [],
+        //     App::$version,
+        //     true
+        // );
+    }
+
+    /**
+     * Adds various inline JS/CSS scripts directly to the head on EVERY admin page
+     *
+     * @since 0.1.0
+     * @return void
+     */
+    public function addGlobalInlineScripts()
+    { ?>
+        <style>
+            .wp-has-submenu a[href="admin.php?page=metagallery"] {
+                margin-top: 10px !important;
+            }
+            .wp-has-submenu a[href="admin.php?page=metagallery"]::after {
+                content: 'NEW';
+                font-size: 10px;
+                margin-left: 5px;
+                color: #dfff34;
+            }
+        </style>
+    <?php }
 }

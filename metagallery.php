@@ -10,14 +10,20 @@ if (!defined('ABSPATH')) {
     die('No direct access.');
 }
 
-define('METAGALLERY_TEXTDOMAIN', 'metagallery');
-define('METAGALLERY_PAGE_NAME', 'metagallery');
-define('METAGALLERY_PATH', plugin_dir_path(__FILE__));
+if (!class_exists('ExtendifyMetaGallery')) :
+class ExtendifyMetaGallery
+{
+    public static $loaded = false;
 
-require plugin_dir_path(__FILE__) . 'vendor/autoload.php';
-require plugin_dir_path(__FILE__) . 'routes/api.php';
-require plugin_dir_path(__FILE__) . 'routes/admin.php';
-// require plugin_dir_path(__FILE__) . 'routes/console.php';
+    public function __invoke()
+    {
+        if (!self::$loaded) {
+            self::$loaded = true;
+            require dirname(__FILE__) . '/bootstrap.php';
+            new Extendify\MetaGallery\App;
+        }
+    }
+}
+endif;
 
-new Extendify\MetaGallery\App;
-// new Extendify\MetaGallery\Shortcode;
+(new ExtendifyMetaGallery)();
