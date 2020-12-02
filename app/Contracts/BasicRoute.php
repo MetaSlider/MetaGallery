@@ -2,6 +2,10 @@
 
 namespace Extendify\MetaGallery\Contracts;
 
+if (!defined('ABSPATH')) {
+    die('No direct access.');
+}
+
 /**
  * Contract for routes
  *

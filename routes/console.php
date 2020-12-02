@@ -1,5 +1,7 @@
 <?php
-
+if (!defined('ABSPATH')) {
+    die('No direct access.');
+}
 namespace Extendify\MetaGallery\Routes;
 
 use Extendify\MetaGallery\App;

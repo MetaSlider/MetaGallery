@@ -81,11 +81,11 @@ class AdminRouter
         }, 9999);
 
         \add_action('admin_enqueue_scripts', function ($hook) {
-            $this->addGlobalScripts();
+            $this->addGlobalScriptsAndStyles();
             if (!$this->checkAdminPageIsOurs($hook)) {
                 return;
             }
-            $this->addScopedScripts();
+            $this->addScopedScriptsAndStyles();
         });
 
         \add_action('admin_head', function () {
@@ -156,21 +156,28 @@ class AdminRouter
      * @since 0.1.0
      * @return void
      */
-    public function addScopedScripts()
+    public function addScopedScriptsAndStyles()
     {
+        // \wp_enqueue_script(
+        //     App::$slug . '-axios',
+        //     'https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js',
+        //     [],
+        //     App::$version,
+        //     true
+        // );
         \wp_enqueue_script(
-            App::$slug . '-axios',
-            'https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js',
+            App::$slug . '-scripts',
+            METAGALLERY_BASE_URL . 'public/build/metagallery.js',
             [],
             App::$version,
             true
         );
-        \wp_enqueue_script(
-            App::$slug . '-alpine',
-            'https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js',
+        \wp_enqueue_style(
+            App::$slug . '-theme',
+            METAGALLERY_BASE_URL . 'public/build/theme.css',
             [],
             App::$version,
-            true
+            'all'
         );
     }
 
@@ -183,7 +190,7 @@ class AdminRouter
     public function addScopedInlineScripts()
     {
         // helper style for Alpinejs
-        echo '<style>[x-cloak] { display: none; }</style>';
+        echo '<style>[x-cloak] { display: none!important; }</style>';
     }
 
     /**
@@ -192,7 +199,7 @@ class AdminRouter
      * @since 0.1.0
      * @return void
      */
-    public function addGlobalScripts()
+    public function addGlobalScriptsAndStyles()
     {
         // \wp_enqueue_script(
         //     App::$slug . '-alpine',

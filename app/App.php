@@ -43,6 +43,14 @@ class App
     public static $capability = 'edit_posts';
 
     /**
+     * Plugin text domain
+     *
+     * @since 0.1.0
+     * @var string
+     */
+    public static $textDomain = '';
+
+    /**
      * Process the readme file to get version and name
      *
      * @since 0.1.0
@@ -50,16 +58,18 @@ class App
      */
     public function __construct()
     {
-        self::$capability = apply_filters('metagallery_capability', self::$capability);
+        self::$capability = \apply_filters('metagallery_capability', self::$capability);
 
         $readme = file_get_contents(dirname(__DIR__) . '/readme.txt');
 
         preg_match('/=== (.+) ===/', $readme, $matches);
         self::$name = $matches[1];
-        self::$slug = sanitize_title(self::$name);
+        self::$slug = strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', self::$name), '-'));
 
         preg_match('/Stable tag: ([0-9.:]+)/', $readme, $matches);
         self::$version = $matches[1];
+
+        self::$textDomain = $this->getPluginInfo('TextDomain');
     }
 
     /**
@@ -80,5 +90,26 @@ class App
             $controller = 'Extendify\MetaGallery\\Controllers\\' . $arguments[0] . 'Controller';
             return new $controller;
         }
+    }
+
+    /**
+     * Will return an instance of a controller on demand
+     * Example: App::get('UserData')
+     *
+     * @since 0.1.0
+     * @param string $identifier The key of the plugin info
+     * @return string
+     */
+    protected function getPluginInfo($identifier)
+    {
+        if (!function_exists('get_plugins')) {
+            include_once(ABSPATH.'wp-admin/includes/plugin.php');
+        }
+        foreach (get_plugins() as $plugin => $data) {
+            if ($data[$identifier] == self::$slug) {
+                return $plugin;
+            }
+        }
+        return false;
     }
 }

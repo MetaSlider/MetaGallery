@@ -1,6 +1,9 @@
 <?php
 use Extendify\MetaGallery\App;
 
+if (!defined('ABSPATH')) {
+    die('No direct access.');
+}
 ?>
 
 <nav>

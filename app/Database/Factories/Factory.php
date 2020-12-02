@@ -2,6 +2,10 @@
 
 namespace Extendify\MetaGallery\Database\Factories;
 
+if (!defined('ABSPATH')) {
+    die('No direct access.');
+}
+
 use Faker\Factory as Faker;
 
 abstract class Factory

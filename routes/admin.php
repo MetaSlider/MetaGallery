@@ -1,4 +1,7 @@
 <?php
+if (!defined('ABSPATH')) {
+    die('No direct access.');
+}
 use Extendify\MetaGallery\AdminRouter;
 use Extendify\MetaGallery\Controllers\GalleryController;
 

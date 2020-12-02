@@ -1,6 +1,9 @@
 <?php
-
 namespace Extendify\MetaGallery\Traits;
+
+if (!defined('ABSPATH')) {
+    die('No direct access.');
+}
 
 /**
  * Abstract route class

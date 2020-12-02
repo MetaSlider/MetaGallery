@@ -2,6 +2,10 @@
 
 namespace Extendify\MetaGallery\Routes;
 
+if (!defined('ABSPATH')) {
+    die('No direct access.');
+}
+
 use Extendify\MetaGallery\Contracts\BasicRoute;
 
 /**

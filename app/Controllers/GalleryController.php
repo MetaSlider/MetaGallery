@@ -2,6 +2,10 @@
 
 namespace Extendify\MetaGallery\Controllers;
 
+if (!defined('ABSPATH')) {
+    die('No direct access.');
+}
+
 use Extendify\MetaGallery\View;
 use Extendify\MetaGallery\Models\Gallery;
 

@@ -2,7 +2,9 @@
 
 namespace Extendify\MetaGallery\Database\Factories;
 
-namespace Extendify\MetaGallery\Database\Factories;
+if (!defined('ABSPATH')) {
+    die('No direct access.');
+}
 
 use Extendify\MetaGallery\Models\Gallery;
 

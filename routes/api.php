@@ -1,5 +1,7 @@
 <?php
-
+if (!defined('ABSPATH')) {
+    die('No direct access.');
+}
 use Extendify\MetaGallery\App;
 use Extendify\MetaGallery\Routes\UserData;
 use Extendify\MetaGallery\APIRouter;

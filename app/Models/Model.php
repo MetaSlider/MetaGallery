@@ -2,6 +2,10 @@
 
 namespace Extendify\MetaGallery\Models;
 
+if (!defined('ABSPATH')) {
+    die('No direct access.');
+}
+
 use Extendify\MetaGallery\App;
 
 /**
