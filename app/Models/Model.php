@@ -19,6 +19,7 @@ abstract class Model
     protected $postsPerPage = -1;
     protected $extraParameters = [];
     protected $toPluck = [];
+    protected $wantedAttributes = [];
     protected $dbKey = '';
 
     abstract public function getPostType();
@@ -31,26 +32,34 @@ abstract class Model
 
     private function actualQuery()
     {
-        $posts = get_posts(array_merge([
+        $posts = \get_posts(array_merge([
             'post_type' => $this->getPostType(),
             'post_status' => ['publish'],
             'orderby' => $this->orderBy,
             'posts_per_page' => $this->postsPerPage
         ], $this->extraParameters));
 
-        return array_map(function ($post) {
+        $posts = array_map(function ($post) {
             $meta = [];
-            foreach ($this->getWantedProperties() as $key) {
-                $meta[$key] = get_post_meta($post->ID, $this->dbKey.'-'.$key, true);
+            foreach ($this->getExtraAttributes() as $key) {
+                $meta[$key] = \get_post_meta($post->ID, $this->dbKey.'-'.$key, true);
             }
             $post->meta = $meta;
             return $post;
         }, $posts);
+
+        if (!$this->toPluck) {
+            return $posts;
+        }
+
+        return array_map(function ($post) {
+            return array_intersect_key($post->to_array(), array_flip($this->toPluck));
+        }, $posts);
     }
-    private function getWantedProperties()
+    private function getExtraAttributes()
     {
-        if ($this->toPluck) {
-            return $this->toPluck;
+        if ($this->wantedAttributes) {
+            return $this->wantedAttributes;
         }
         $class = new \ReflectionClass($this);
         return array_map(function ($prop) {
@@ -89,11 +98,24 @@ abstract class Model
         }
     }
 
-    public static function get(array $fields = [])
+    public function pluck(array $fields = [])
+    {
+        $this->toPluck = $fields;
+        return $this;
+    }
+
+    public static function get()
     {
         $class = new static;
         $class->dbKey = App::$slug;
-        $class->toPluck = $fields;
+        return $class;
+    }
+
+    public static function getWith(array $fields)
+    {
+        $class = new static;
+        $class->dbKey = App::$slug;
+        $class->wantedAttributes = $fields;
         return $class;
     }
 }

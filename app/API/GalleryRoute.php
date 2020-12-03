@@ -1,11 +1,12 @@
 <?php
 
-namespace Extendify\MetaGallery\Routes;
+namespace Extendify\MetaGallery\API;
 
 if (!defined('ABSPATH')) {
     die('No direct access.');
 }
 
+use Extendify\MetaGallery\Models\Gallery;
 use Extendify\MetaGallery\Contracts\BasicRoute;
 
 /**
@@ -13,10 +14,10 @@ use Extendify\MetaGallery\Contracts\BasicRoute;
  *
  * @since 0.1.0
  */
-class UserData implements BasicRoute
+class GalleryRoute implements BasicRoute
 {
     public function __invoke($request)
     {
-        return $request->get_params();
+        return Gallery::get()->all();
     }
 }

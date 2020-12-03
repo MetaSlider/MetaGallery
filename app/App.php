@@ -35,6 +35,14 @@ class App
     public static $version = '';
 
     /**
+     * Plugin API REST version
+     *
+     * @since 0.1.0
+     * @var string
+     */
+    public static $apiVersion = 'v1';
+
+    /**
      * Plugin default capability
      *
      * @since 0.1.0

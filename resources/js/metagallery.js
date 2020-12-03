@@ -1,5 +1,8 @@
 import Alpine from 'alpinejs'
+import { Gallery } from './api'
 
 window.Alpine = Alpine
 
-console.log(Alpine)
+Gallery.all().then(({ data }) => {
+    console.log(data)
+})

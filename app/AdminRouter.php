@@ -158,20 +158,18 @@ class AdminRouter
      */
     public function addScopedScriptsAndStyles()
     {
-        // \wp_enqueue_script(
-        //     App::$slug . '-axios',
-        //     'https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js',
-        //     [],
-        //     App::$version,
-        //     true
-        // );
-        \wp_enqueue_script(
+        \wp_register_script(
             App::$slug . '-scripts',
             METAGALLERY_BASE_URL . 'public/build/metagallery.js',
             [],
             App::$version,
             true
         );
+        \wp_localize_script(App::$slug . '-scripts', App::$slug . 'Data', [
+            'root' => esc_url_raw(rest_url(APP::$slug . '/' . APP::$apiVersion)),
+            'nonce' => wp_create_nonce('wp_rest')
+        ]);
+        \wp_enqueue_script(App::$slug . '-scripts');
         \wp_enqueue_style(
             App::$slug . '-theme',
             METAGALLERY_BASE_URL . 'public/build/theme.css',
