@@ -58,6 +58,9 @@ jobs:
       - name: Start MySQL server
         run: sudo service mysql start
 
+      - name: PHPCS check
+        uses: chekalsky/phpcs-action@v1
+
       - name: Prepare test database
         run: |
           export MYQSL_HOST=127.0.0.1
