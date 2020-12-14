@@ -4,8 +4,7 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "require": {
-        "php": ">=7.1",
-        "fzaninotto/faker": "^1.9"
+        "php": ">=7.1"
     },
     "require-dev": {
         "johnpbloch/wordpress-core": "*",
