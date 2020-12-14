@@ -1,4 +1,7 @@
 <?php
+/**
+ * A factory class to build galleries
+ */
 
 namespace Extendify\MetaGallery\Database\Factories;
 
@@ -8,8 +11,12 @@ if (!defined('ABSPATH')) {
 
 use Extendify\MetaGallery\Models\Gallery;
 
-class UserFactory extends Factory
+/**
+ * The user factory
+ */
+class GalleryFactory extends Factory
 {
+
     /**
      * The name of the factory's corresponding model.
      *

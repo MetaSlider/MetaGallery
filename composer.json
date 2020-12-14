@@ -9,7 +9,9 @@
     },
     "require-dev": {
         "johnpbloch/wordpress-core": "*",
-        "phpunit/phpunit": "^9.4"
+        "phpunit/phpunit": "^9.4",
+        "dealerdirect/phpcodesniffer-composer-installer": "^0.7",
+        "phpcompatibility/phpcompatibility-wp": "*"
     },
     "autoload": {
         "psr-4": {

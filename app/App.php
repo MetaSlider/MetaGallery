@@ -1,4 +1,7 @@
 <?php
+/**
+ * The App details file
+ */
 
 namespace Extendify\MetaGallery;
 
@@ -66,8 +69,10 @@ class App
      */
     public function __construct()
     {
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
         self::$capability = \apply_filters('metagallery_capability', self::$capability);
 
+        // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents
         $readme = file_get_contents(dirname(__DIR__) . '/readme.txt');
 
         preg_match('/=== (.+) ===/', $readme, $matches);
@@ -85,8 +90,8 @@ class App
      * Example: App::get('UserData')
      *
      * @since 0.1.0
-     * @param string $name       The name of the method being called
-     * @param string $arguements On enumerated array containing the parameters passed to the $name'ed method
+     * @param string $name      - The name of the method being called.
+     * @param string $arguments - On enumerated array containing the parameters passed to the $name'ed method.
      * @return object
      */
     public static function __callStatic($name, $arguments)
@@ -94,9 +99,10 @@ class App
         if ($name !== 'get') {
             return;
         }
+
         if (file_exists(dirname(__FILE__) . "/Controllers/{$arguments[0]}Controller.php")) {
             $controller = 'Extendify\MetaGallery\\Controllers\\' . $arguments[0] . 'Controller';
-            return new $controller;
+            return new $controller();
         }
     }
 
@@ -105,19 +111,21 @@ class App
      * Example: App::get('UserData')
      *
      * @since 0.1.0
-     * @param string $identifier The key of the plugin info
+     * @param string $identifier The key of the plugin info.
      * @return string
      */
     protected function getPluginInfo($identifier)
     {
         if (!function_exists('get_plugins')) {
-            include_once(ABSPATH.'wp-admin/includes/plugin.php');
+            include_once ABSPATH . 'wp-admin/includes/plugin.php';
         }
+
         foreach (get_plugins() as $plugin => $data) {
-            if ($data[$identifier] == self::$slug) {
+            if ($data[$identifier] === self::$slug) {
                 return $plugin;
             }
         }
+
         return false;
     }
 }

@@ -1,4 +1,7 @@
 <?php
+/**
+ * Admin page router.
+ */
 
 namespace Extendify\MetaGallery;
 
@@ -14,10 +17,25 @@ class AdminRouter
 {
     use Routable;
 
+    /**
+     * The instance.
+     *
+     * @var $instance
+     */
     protected static $instance = null;
 
+    /**
+     * The parent page
+     *
+     * @var $parent
+     */
     protected $parent = '';
 
+    /**
+     * The routes
+     *
+     * @var $routes
+     */
     public $routes = [];
 
     /**
@@ -31,40 +49,65 @@ class AdminRouter
         if (self::$instance) {
             return self::$instance;
         }
+
         self::$instance = $this;
         $this->addBasePageAndLoadScripts();
     }
 
+    /**
+     * The get handler.
+     *
+     * @param string $namespace - The namespace.
+     * @param string $endpoint  - The route endpoint.
+     * @param mixed  $callback  - The callback function.
+     *
+     * @return void
+     */
     public function getHandler(string $namespace, string $endpoint, $callback)
     {
-        // Convert Object::class to [Object::class, ''] to match [Object, method]
+        // Convert Object::class to [Object::class, ''] to match [Object, method].
         if (is_string($callback)) {
-            $callback = [$callback, ''];
+            $callback = [
+                $callback,
+                '',
+            ];
         }
+
         $this->routes[$endpoint . $namespace] = $callback;
     }
 
+    /**
+     * The route handler.
+     *
+     * @return void
+     */
     public function registerHandler()
     {
         if (!$this->checkAdminPageIsOurs()) {
             return;
         }
+
+        // phpcs:ignore WordPress.Security.NonceVerification.Recommended
         if (!isset($_GET['route'])) {
-            \wp_safe_redirect(\admin_url('admin.php?page='.METAGALLERY_PAGE_NAME.'&route=archive'));
+            \wp_safe_redirect(\admin_url('admin.php?page=' . METAGALLERY_PAGE_NAME . '&route=archive'));
             exit;
         }
 
-        if ($callback = $this->routes[$_GET['route']]) {
+        // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+        $callback = $this->routes[sanitize_text_field(wp_unslash($_GET['route']))];
+        if ($callback) {
             if (is_array($callback) && class_exists($callback[0])) {
-                $class = new $callback[0];
+                $class = new $callback[0]();
                 if (method_exists($class, $callback[1])) {
                     return call_user_func([$class, $callback[1]]);
                 }
             }
         }
 
-        // Default to archive page
-        \wp_safe_redirect(\admin_url('admin.php?page='.METAGALLERY_PAGE_NAME.'&route=archive'));
+        // Default to archive page.
+        \wp_safe_redirect(
+            \admin_url('admin.php?page=' . METAGALLERY_PAGE_NAME . '&route=archive')
+        );
         exit;
     }
 
@@ -76,34 +119,45 @@ class AdminRouter
      */
     public function addBasePageAndLoadScripts()
     {
-        \add_action('admin_menu', function () {
-            $this->addAdminPage();
-        }, 9999);
+        \add_action(
+            'admin_menu',
+            function () {
+                $this->addAdminPage();
+            },
+            9999
+        );
 
-        \add_action('admin_enqueue_scripts', function ($hook) {
-            $this->addGlobalScriptsAndStyles();
-            if (!$this->checkAdminPageIsOurs($hook)) {
-                return;
-            }
-            $this->addScopedScriptsAndStyles();
-        });
+        \add_action(
+            'admin_enqueue_scripts',
+            function ($hook) {
+                $this->addGlobalScriptsAndStyles();
+                if (!$this->checkAdminPageIsOurs($hook)) {
+                    return;
+                }
 
-        \add_action('admin_head', function () {
-            $this->addGlobalInlineScripts();
-            if (!$this->checkAdminPageIsOurs()) {
-                return;
+                $this->addScopedScriptsAndStyles();
             }
-            $this->addScopedInlineScripts();
-        });
+        );
+
+        \add_action(
+            'admin_head',
+            function () {
+                $this->addGlobalInlineScripts();
+                if (!$this->checkAdminPageIsOurs()) {
+                    return;
+                }
+
+                $this->addScopedInlineScripts();
+            }
+        );
     }
-
-
 
     /**
      * Lets sideloading as a subpage from another plugin
      *
      * @since 0.1.0
-     * @var string $page - The parent page
+     * @param string $page - The parent page.
+     *
      * @return self
      */
     public function sideload($page)
@@ -132,6 +186,7 @@ class AdminRouter
         if ($this->parent) {
             array_unshift($args, $this->parent);
         }
+
         $addPage(...$args);
     }
 
@@ -139,15 +194,17 @@ class AdminRouter
      * Makes sure we are on the correct page
      *
      * @since 0.1.0
-     * @var string $hook - An optional hook provided by WP to identify the page
-     * @return void
+     * @param string $hook - An optional hook provided by WP to identify the page.
+     * @return boolean
      */
     public function checkAdminPageIsOurs($hook = '')
     {
         if ($hook) {
             return ('toplevel_page_' . App::$slug === $hook);
         }
-        return isset($_GET['page']) && ($_GET['page'] === METAGALLERY_PAGE_NAME);
+
+        // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+        return isset($_GET['page']) && (sanitize_text_field(wp_unslash($_GET['page'])) === METAGALLERY_PAGE_NAME);
     }
 
     /**
@@ -165,10 +222,14 @@ class AdminRouter
             App::$version,
             true
         );
-        \wp_localize_script(App::$slug . '-scripts', App::$slug . 'Data', [
-            'root' => esc_url_raw(rest_url(APP::$slug . '/' . APP::$apiVersion)),
-            'nonce' => wp_create_nonce('wp_rest')
-        ]);
+        \wp_localize_script(
+            App::$slug . '-scripts',
+            App::$slug . 'Data',
+            [
+                'root' => esc_url_raw(rest_url(APP::$slug . '/' . APP::$apiVersion)),
+                'nonce' => wp_create_nonce('wp_rest'),
+            ]
+        );
         \wp_enqueue_script(App::$slug . '-scripts');
         \wp_enqueue_style(
             App::$slug . '-theme',
@@ -187,7 +248,7 @@ class AdminRouter
      */
     public function addScopedInlineScripts()
     {
-        // helper style for Alpinejs
+        // helper style for Alpinejs.
         echo '<style>[x-cloak] { display: none!important; }</style>';
     }
 
@@ -199,6 +260,7 @@ class AdminRouter
      */
     public function addGlobalScriptsAndStyles()
     {
+        // phpcs:disable
         // \wp_enqueue_script(
         //     App::$slug . '-alpine',
         //     'https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js',
@@ -206,6 +268,7 @@ class AdminRouter
         //     App::$version,
         //     true
         // );
+        // phpcs:enable
     }
 
     /**
@@ -215,7 +278,8 @@ class AdminRouter
      * @return void
      */
     public function addGlobalInlineScripts()
-    { ?>
+    {
+        ?>
         <style>
             .wp-has-submenu a[href="admin.php?page=metagallery"] {
                 margin-top: 10px !important;
@@ -227,5 +291,6 @@ class AdminRouter
                 color: #dfff34;
             }
         </style>
-    <?php }
+        <?php
+    }
 }

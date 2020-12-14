@@ -1,4 +1,7 @@
 <?php
+/**
+ * Return all galleries
+ */
 
 namespace Extendify\MetaGallery\API;
 
@@ -16,7 +19,12 @@ use Extendify\MetaGallery\Contracts\BasicRoute;
  */
 class GalleryRoute implements BasicRoute
 {
-    public function __invoke($request)
+    /**
+     * Return all galleries
+     *
+     * @return Extendify\MetaGallery\Models\Gallery
+     */
+    public function __invoke()
     {
         return Gallery::get()->all();
     }

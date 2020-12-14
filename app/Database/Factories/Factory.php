@@ -1,4 +1,7 @@
 <?php
+/**
+ * Factory to create models
+ */
 
 namespace Extendify\MetaGallery\Database\Factories;
 
@@ -8,6 +11,9 @@ if (!defined('ABSPATH')) {
 
 use Faker\Factory as Faker;
 
+/**
+ * Factory to create models
+ */
 abstract class Factory
 {
 
@@ -27,7 +33,6 @@ abstract class Factory
 
     /**
      * Create a new factory instance.
-     *
      */
     public function __construct()
     {

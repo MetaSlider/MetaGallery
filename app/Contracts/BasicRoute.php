@@ -1,4 +1,7 @@
 <?php
+/**
+ * A basic API route interface
+ */
 
 namespace Extendify\MetaGallery\Contracts;
 
@@ -13,5 +16,12 @@ if (!defined('ABSPATH')) {
  */
 interface BasicRoute
 {
+    /**
+     * Invoker
+     *
+     * @param WP_REST_Request $request - The request.
+     *
+     * @return WP_Query
+     */
     public function __invoke($request);
 }
