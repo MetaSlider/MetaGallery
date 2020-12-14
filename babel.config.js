@@ -11,10 +11,7 @@ module.exports = {
                     ios: '11.3',
                     safari: '13',
                 },
-                exclude: [
-                    'transform-async-to-generator',
-                    'transform-regenerator',
-                ],
+                exclude: ['transform-async-to-generator', 'transform-regenerator'],
             },
         ],
     ],

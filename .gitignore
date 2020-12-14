@@ -1,3 +1,9 @@
 .DS_Store
 /vendor
 node_modules
+
+cypress/integration/examples
+cypress/screenshots/**/*
+!cypress/screenshots/.gitkeep
+cypress/videos/**/*
+!cypress/videos/.gitkeep
