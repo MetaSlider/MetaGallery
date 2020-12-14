@@ -1,4 +1,4 @@
-name: Build And Test
+name: PHP Code Checks
 on: [push, pull_request]
 jobs:
   phpcs:
