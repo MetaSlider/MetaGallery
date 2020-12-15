@@ -62,6 +62,7 @@ jobs:
 
       - name: PHPCS check
         run: |
+            phpcs --config-set installed_paths ./wpcs
             phpcs -i
             phpcs .
 
