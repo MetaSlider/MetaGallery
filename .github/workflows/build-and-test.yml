@@ -58,11 +58,10 @@ jobs:
         run: composer install --prefer-dist --no-progress --no-suggest
 
       - name: Install PHPCS
-        run: composer create-project wp-coding-standards/wpcs --no-dev wpcs
+        run: git clone -b master https://github.com/WordPress/WordPress-Coding-Standards.git wpcs
 
       - name: PHPCS check
         run: |
-            phpcs --config-set installed_paths wpcs,vendor/phpcompatibility/phpcompatibility-wp/PHPCompatibilityWP,vendor/phpcompatibility/php-compatibility/PHPCompatibility,vendor/phpcompatibility/phpcompatibility-paragonie/PHPCompatibilityParagonieSodiumCompat,vendor/phpcompatibility/phpcompatibility-paragonie/PHPCompatibilityParagonieRandomCompat
             phpcs -i
             phpcs .
 
