@@ -53,13 +53,13 @@ jobs:
             ${{ runner.os }}-composer-
 
       - name: Install dependencies
-        run: COMPOSER_ROOT_VERSION=dev-master composer install --prefer-dist --no-progress --no-suggest
+        run: composer install --prefer-dist --no-progress --no-suggest
 
       - name: Start MySQL server
         run: sudo service mysql start
 
       - name: Install PHPCS
-        run: composer create-project wp-coding-standards/wpcs --no-dev wpcs dev-master
+        run: composer create-project wp-coding-standards/wpcs --no-dev
 
       - name: PHPCS check
         uses: chekalsky/phpcs-action@v1
