@@ -10,7 +10,7 @@
         "johnpbloch/wordpress-core": "*",
         "phpunit/phpunit": "^9.4",
         "dealerdirect/phpcodesniffer-composer-installer": "^0.7",
-        "phpcompatibility/phpcompatibility-wp": "*"
+        "phpcompatibility/phpcompatibility-wp": "dev-master"
     },
     "autoload": {
         "psr-4": {
