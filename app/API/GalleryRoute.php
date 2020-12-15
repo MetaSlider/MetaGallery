@@ -22,11 +22,13 @@ class GalleryRoute implements BasicRoute
     /**
      * Return all galleries
      *
-     * @param WP_RESR_Request $request - The request
+     * @param WP_REST_Request $request - The request.
      * @return WP_Query
      */
     public function __invoke($request)
     {
-        return Gallery::get()->all();
+        if ($request) {
+            return Gallery::get()->all();
+        }
     }
 }

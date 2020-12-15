@@ -14,9 +14,9 @@ require METAGALLERY_PATH . 'resources/views/header.php';
 
 <div>
 <?php
-    if ($view) {
-        include METAGALLERY_PATH . "resources/views/pages/{$view}.php";
-    }
+if ($view) {
+    include METAGALLERY_PATH . "resources/views/pages/{$view}.php";
+}
 ?>
 </div>
 </div>
