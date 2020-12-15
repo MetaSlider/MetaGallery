@@ -58,7 +58,7 @@ jobs:
         run: composer install --prefer-dist --no-progress --no-suggest
 
       - name: Install PHPCS
-        run: composer create-project wp-coding-standards/wpcs --no-dev
+        run: composer create-project wp-coding-standards/wpcs --no-dev wpcs
 
       - name: PHPCS check
         run: phpcs .
