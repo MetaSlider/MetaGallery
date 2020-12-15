@@ -55,14 +55,16 @@ jobs:
       - name: Install dependencies
         run: composer install --prefer-dist --no-progress --no-suggest
 
-      - name: Start MySQL server
-        run: sudo service mysql start
-
       - name: Install PHPCS
-        run: composer create-project wp-coding-standards/wpcs --no-dev
+        run: git clone -b master https://github.com/WordPress/WordPress-Coding-Standards.git wpcs
 
       - name: PHPCS check
-        run: phpcs .
+        run: |
+            phpcs --config-set installed_paths /home/runner/work/wp-plugin-starter/wp-plugin-starter/vendor/phpcompatibility/phpcompatibility-wp/PHPCompatibilityWP,/home/runner/work/wp-plugin-starter/wp-plugin-starter/vendor/phpcompatibility/php-compatibility/PHPCompatibility,/home/runner/work/wp-plugin-starter/wp-plugin-starter/vendor/phpcompatibility/phpcompatibility-paragonie/PHPCompatibilityParagonieSodiumCompat,/home/runner/work/wp-plugin-starter/wp-plugin-starter/vendor/phpcompatibility/phpcompatibility-paragonie/PHPCompatibilityParagonieRandomCompat,/home/runner/work/wp-plugin-starter/wp-plugin-starter/wpcs
+            phpcs -q --report=checkstyle . | cs2pr
+
+      - name: Start MySQL server
+        run: sudo service mysql start
 
       - name: Prepare test database
         run: |

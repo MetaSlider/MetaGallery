@@ -1,4 +1,8 @@
 <?php
+/**
+ * The header page view
+ */
+
 use Extendify\MetaGallery\App;
 
 if (!defined('ABSPATH')) {
@@ -6,4 +10,4 @@ if (!defined('ABSPATH')) {
 }
 ?>
 
-<h1><?php echo App::$name; ?></h1>
+<h1><?php echo esc_textarea(App::$name); ?></h1>

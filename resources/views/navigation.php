@@ -1,4 +1,8 @@
 <?php
+/**
+ * The navigation view
+ */
+
 use Extendify\MetaGallery\App;
 
 if (!defined('ABSPATH')) {
