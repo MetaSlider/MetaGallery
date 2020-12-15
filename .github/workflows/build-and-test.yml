@@ -64,6 +64,7 @@ jobs:
         run: |
             phpcs --config-set installed_paths vendor/phpcompatibility/phpcompatibility-wp/PHPCompatibilityWP,vendor/phpcompatibility/php-compatibility/PHPCompatibility,vendor/phpcompatibility/phpcompatibility-paragonie/PHPCompatibilityParagonieSodiumCompat,vendor/phpcompatibility/phpcompatibility-paragonie/PHPCompatibilityParagonieRandomCompat,wpcs
             cat /usr/local/bin/CodeSniffer.conf
+            pwd
             phpcs -i
             phpcs -q --report=checkstyle . | cs2pr
 
