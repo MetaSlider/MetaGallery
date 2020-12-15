@@ -39,7 +39,7 @@ jobs:
           php-version: '${{ matrix.php }}'
           extensions: mysql, zip
           coverage: none
-          tools: composer:v1, wp-cli, phpcs
+          tools: composer:v1, wp-cli, cs2pr, phpcs
 
       - name: Get Composer cache directory
         id: composer-cache
@@ -62,9 +62,9 @@ jobs:
 
       - name: PHPCS check
         run: |
-            phpcs --config-set installed_paths ./wpcs
+            phpcs --config-set installed_paths wpcs
             phpcs -i
-            phpcs .
+            phpcs -q --report=checkstyle . | cs2pr
 
       - name: Start MySQL server
         run: sudo service mysql start
