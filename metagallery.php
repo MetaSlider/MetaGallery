@@ -17,7 +17,7 @@ if (!class_exists('MetaGallery')) :
     /**
      * The MetaGallery class
      */
-    final class MetaGallery
+    final class ExtendifyMetaGallery
     {
         // phpcs:enable
 

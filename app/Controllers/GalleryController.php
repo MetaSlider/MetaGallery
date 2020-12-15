@@ -19,9 +19,19 @@ class GalleryController
 {
 
     /**
+     * Display the onboarding page.
+     *
+     * @return Extendify\MetaGallery\View
+     */
+    public function start()
+    {
+        return View::queue('start', 'landing');
+    }
+
+    /**
      * Display a listing of the resource.
      *
-     * @return Response
+     * @return Extendify\MetaGallery\View
      */
     public function index()
     {
@@ -42,7 +52,7 @@ class GalleryController
             exit;
         }
 
-        return View::queue('archive', ['galleries' => $galleries]);
+        return View::queue('archive', 'main', ['galleries' => $galleries]);
     }
 
     /**
@@ -110,7 +120,7 @@ class GalleryController
             exit;
         }
 
-        return View::queue('single', ['gallery' => $gallery]);
+        return View::queue('single', 'main', ['gallery' => $gallery]);
     }
 
     // phpcs:disable

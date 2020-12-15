@@ -22,9 +22,10 @@ class GalleryRoute implements BasicRoute
     /**
      * Return all galleries
      *
-     * @return Extendify\MetaGallery\Models\Gallery
+     * @param WP_RESR_Request $request - The request
+     * @return WP_Query
      */
-    public function __invoke()
+    public function __invoke($request)
     {
         return Gallery::get()->all();
     }

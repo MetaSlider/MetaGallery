@@ -28,6 +28,13 @@ class View
     protected $queuedView = '';
 
     /**
+     * The Layout that will be shown
+     *
+     * @var $queuedLayout
+     */
+    protected $queuedLayout = '';
+
+    /**
      * The Data that will go with the view
      *
      * @var $queuedData
@@ -39,17 +46,19 @@ class View
      * Will queue the view from the controller.
      *
      * @since 0.1.0
-     * @param string $view The name of the view file.
-     * @param array  $data The data to load with the view.
+     * @param string $view   The name of the view file.
+     * @param string $layout The name of the layout file.
+     * @param array  $data   The data to load with the view.
      * @return void
      */
-    public static function queue($view, $data = [])
+    public static function queue($view, $layout = 'main', $data = [])
     {
         if (is_null(self::$instance)) {
             self::$instance = new self();
         }
 
         (self::$instance)->queuedView = $view;
+        (self::$instance)->queuedLayout = $layout;
         (self::$instance)->queuedData = $data;
     }
 
@@ -66,8 +75,11 @@ class View
         if (self::$instance) {
             // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.FoundAfterLastUsed
             $data = (self::$instance)->queuedData;
+            // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.FoundAfterLastUsed
             $view = (self::$instance)->queuedView;
-            include METAGALLERY_PATH . "resources/views/pages/{$view}.php";
+            $layout = (self::$instance)->queuedLayout;
+
+            include METAGALLERY_PATH . "resources/views/layouts/{$layout}.php";
             return;
         }
 
