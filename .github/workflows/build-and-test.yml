@@ -58,11 +58,11 @@ jobs:
         run: composer install --prefer-dist --no-progress --no-suggest
 
       - name: Install PHPCS
-        run: git clone -b master https://github.com/WordPress/WordPress-Coding-Standards.git ${{ github.workspace }}wpcs
+        run: git clone -b master https://github.com/WordPress/WordPress-Coding-Standards.git ${{ github.workspace }}/wpcs
 
       - name: PHPCS check
         run: |
-            phpcs --config-set installed_paths ${{ github.workspace }}vendor/phpcompatibility/phpcompatibility-wp/PHPCompatibilityWP,${{ github.workspace }}vendor/phpcompatibility/php-compatibility/PHPCompatibility,${{ github.workspace }}vendor/phpcompatibility/phpcompatibility-paragonie/PHPCompatibilityParagonieSodiumCompat,${{ github.workspace }}vendor/phpcompatibility/phpcompatibility-paragonie/PHPCompatibilityParagonieRandomCompat,${{ github.workspace }}wpcs
+            phpcs --config-set installed_paths ${{ github.workspace }}/vendor/phpcompatibility/phpcompatibility-wp/PHPCompatibilityWP,${{ github.workspace }}/vendor/phpcompatibility/php-compatibility/PHPCompatibility,${{ github.workspace }}/vendor/phpcompatibility/phpcompatibility-paragonie/PHPCompatibilityParagonieSodiumCompat,${{ github.workspace }}/vendor/phpcompatibility/phpcompatibility-paragonie/PHPCompatibilityParagonieRandomCompat,${{ github.workspace }}/wpcs
             phpcs -i
             phpcs -q --report=checkstyle . | cs2pr
 
