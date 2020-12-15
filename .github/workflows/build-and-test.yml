@@ -39,7 +39,7 @@ jobs:
           php-version: '${{ matrix.php }}'
           extensions: mysql, zip
           coverage: none
-          tools: composer, wp-cli
+          tools: composer:v1, wp-cli
 
       - name: Get Composer cache directory
         id: composer-cache
