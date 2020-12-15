@@ -61,7 +61,9 @@ jobs:
         run: composer create-project wp-coding-standards/wpcs --no-dev wpcs
 
       - name: PHPCS check
-        run: phpcs .
+        run: |
+            phpcs --config-set installed_paths wpcs
+            phpcs .
 
       - name: Start MySQL server
         run: sudo service mysql start
