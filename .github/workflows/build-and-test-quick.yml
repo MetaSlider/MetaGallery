@@ -59,7 +59,7 @@ jobs:
         run: sudo service mysql start
 
       - name: Install PHPCS
-        run: composer create-project wp-coding-standards/wpcs --no-dev dev-master
+        run: composer create-project wp-coding-standards/wpcs=dev-master --no-dev
 
       - name: PHPCS check
         uses: chekalsky/phpcs-action@v1
