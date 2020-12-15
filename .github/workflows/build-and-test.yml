@@ -61,7 +61,7 @@ jobs:
         run: composer create-project wp-coding-standards/wpcs --no-dev
 
       - name: PHPCS check
-        uses: chekalsky/phpcs-action@v1
+        run: phpcs .
 
       - name: Start MySQL server
         run: sudo service mysql start
