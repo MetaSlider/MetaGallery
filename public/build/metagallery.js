@@ -3682,15 +3682,21 @@
                 params: {},
             })
         },
+        create: function create() {
+            return Axios$1.post('gallery', {
+                params: {},
+            })
+        },
     }
 
+    // when another plugin has JS code running and breaking things.
+
+    Array.from(document.querySelectorAll('#wpbody-content > *:not(#metagallery-app)')).forEach(function (element) {
+        return (element.style.display = 'none')
+    })
     window.Alpine = alpine
     Gallery.all().then(function (_ref) {
         var data = _ref.data
         console.log(data)
-    }) // Hide nags
-
-    Array.from(document.querySelectorAll('#wpbody-content > *:not(#metagallery-app)')).forEach(function (element) {
-        return (element.style.display = 'none')
     })
 })

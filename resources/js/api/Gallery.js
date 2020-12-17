@@ -7,6 +7,11 @@ const Gallery = {
             params: {},
         })
     },
+    create() {
+        return api.post('gallery', {
+            params: {},
+        })
+    },
 }
 
 export default Gallery
