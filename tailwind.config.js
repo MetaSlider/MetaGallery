@@ -5,6 +5,10 @@ module.exports = {
     },
     darkMode: 'class',
     theme: {
+        fontFamily: {
+            heading: ['Rubik', 'sans-serif'],
+            body: ['"IBM Plex Sans"', 'sans-serif'],
+        },
         colors: {
             nord0: '#2E3440',
             nord1: '#3B4252',

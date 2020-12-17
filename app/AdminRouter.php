@@ -249,6 +249,8 @@ class AdminRouter
     public function addScopedInlineScripts()
     {
         // helper style for Alpinejs.
+        // phpcs:ignore WordPress.WP.EnqueuedResources.NonEnqueuedStylesheet
+        echo '<link rel="preconnect" href="https://fonts.gstatic.com"><link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500&family=Rubik:wght@500&display=swap" rel="stylesheet">';
         echo '<style>[x-cloak] { display: none!important; }</style>';
     }
 

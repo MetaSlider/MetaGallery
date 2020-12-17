@@ -28,8 +28,17 @@ $metagalleryAdminRouter->sideload(METAGALLERY_SIDELOAD_FROM);
 
 define('METAGALLERY_PAGE_NAME', 'metagallery');
 
+require METAGALLERY_PATH . 'resources/admin/overrides.php';
+
 require METAGALLERY_PATH . 'routes/api.php';
 require METAGALLERY_PATH . 'routes/admin.php';
 // phpcs:disable
 // require METAGALLERY_PATH . 'routes/console.php';
 // phpcs:enable
+
+\add_action(
+    'init',
+    function () {
+        \load_plugin_textdomain('metagallery', false, METAGALLERY_PATH . 'languages');
+    }
+);

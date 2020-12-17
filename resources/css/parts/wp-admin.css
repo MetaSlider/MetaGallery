@@ -1,0 +1,22 @@
+/* Override default wp-admin styles here */
+#wpbody-content,
+#wpcontent,
+#wpfooter {
+    @apply p-0;
+}
+ul#adminmenu a.wp-has-current-submenu:after,
+ul#adminmenu > li.current > a.current:after {
+    @apply border-nord6;
+    border-top-color: transparent;
+    border-bottom-color: transparent;
+    border-left-color: transparent;
+}
+#metagallery-app p {
+    font-size: inherit;
+}
+#metagallery-app strong {
+    @apply font-medium text-nord2;
+}
+#footer-left {
+    @apply px-4;
+}
