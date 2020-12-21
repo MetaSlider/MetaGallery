@@ -20,12 +20,20 @@ if (!defined('ABSPATH')) {
         It's set up with a start, create, archive, and single page system but I think
         we can just use the archive page as the builder for now until it gets more complex
         ie. no single page and no create page
+
+        TODO: use alpine to create a gallery, then redirect to the archive page
     -->
-        <a
-            href="<?php echo \esc_attr(\admin_url('admin.php?page=' . METAGALLERY_PAGE_NAME . '&route=create')); ?>"
-            class="flex items-center transition duration-150 px-6 py-1 bg-nord4 hover:bg-nord1 hover:text-nord6 shadow-sm text-base font-medium rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-nord8">
-            <?php \esc_html_e('Start Here', 'metagallery'); ?>
-        </a>
+        <form
+            x-data=""
+            method="POST"
+            action="<?php echo \esc_url(\admin_url('admin.php?page=' . METAGALLERY_PAGE_NAME . '&route=archive')); ?>">
+            <input type="text" name="title" value="sup">
+            <input type="hidden" name="HTTP_X_WP_NONCE" value="<?php echo \esc_attr(\wp_create_nonce('wp_rest')); ?>">
+            <button type="submit"
+                class="flex items-center transition duration-250 px-6 py-1 bg-nord4 hover:bg-nord1 hover:text-nord6 shadow-sm text-base font-medium rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-nord8">
+                <?php \esc_html_e('Start Here', 'metagallery'); ?>
+            </button>
+        </form>
     </div>
     <div class="bg-nord5 p-10 py-6">
         <h3 class="mb-3"><?php \esc_html_e('MetaGallery will be build following these principles:', 'metagallery'); ?></h3>

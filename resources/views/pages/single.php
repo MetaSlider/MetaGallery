@@ -8,4 +8,6 @@ if (!defined('ABSPATH')) {
 }
 ?>
 
-A single gallery page
+<div class="text-center">
+    Nothing to see here yet!
+</div>

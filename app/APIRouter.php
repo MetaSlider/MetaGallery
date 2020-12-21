@@ -70,7 +70,7 @@ class APIRouter extends \WP_REST_Controller
      *
      * @return void
      */
-    public function gethandler(string $namespace, string $endpoint, $callback)
+    public function getHandler(string $namespace, string $endpoint, $callback)
     {
         \register_rest_route(
             $namespace,
@@ -85,5 +85,18 @@ class APIRouter extends \WP_REST_Controller
             ],
             true,
         );
+    }
+
+    /**
+     * Register dynamic routes
+     *
+     * @param string $namespace - The api name space.
+     * @param string $endpoint  - The endpoint.
+     * @param string $callback  - The callback to run.
+     *
+     * @return void
+     */
+    public function postHandler(string $namespace, string $endpoint, $callback)
+    {
     }
 }

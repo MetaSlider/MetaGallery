@@ -24,7 +24,6 @@ trait Routable
      */
     protected static $instance = null;
 
-
     /**
      * The handler for get requests
      *
@@ -35,6 +34,17 @@ trait Routable
      * @return mixed
      */
     abstract public function getHandler(string $namespace, string $endpoint, $callback);
+
+    /**
+     * The handler for post requests
+     *
+     * @param string $namespace - The namespace.
+     * @param string $endpoint  - The endpoint being called.
+     * @param string $callback  - The callback function.
+     *
+     * @return mixed
+     */
+    abstract public function postHandler(string $namespace, string $endpoint, $callback);
 
     /**
      * The caller

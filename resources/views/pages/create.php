@@ -8,4 +8,8 @@ if (!defined('ABSPATH')) {
 }
 ?>
 
-options shown when creating a new Gallery, before images are added
+<!-- options shown when creating a new Gallery, before images are added -->
+
+<div class="text-center">
+    Nothing to see here
+</div>

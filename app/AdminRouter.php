@@ -73,7 +73,29 @@ class AdminRouter
             ];
         }
 
-        $this->routes[$endpoint . $namespace] = $callback;
+        $this->routes['GET'][$endpoint . $namespace] = $callback;
+    }
+
+    /**
+     * The post handler.
+     *
+     * @param string $namespace - The namespace.
+     * @param string $endpoint  - The route endpoint.
+     * @param mixed  $callback  - The callback function.
+     *
+     * @return void
+     */
+    public function postHandler(string $namespace, string $endpoint, $callback)
+    {
+        // Convert Object::class to [Object::class, ''] to match [Object, method].
+        if (is_string($callback)) {
+            $callback = [
+                $callback,
+                '',
+            ];
+        }
+
+        $this->routes['POST'][$endpoint . $namespace] = $callback;
     }
 
     /**
@@ -88,25 +110,55 @@ class AdminRouter
         }
 
         // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-        if (!isset($_GET['route'])) {
-            \wp_safe_redirect(\admin_url('admin.php?page=' . METAGALLERY_PAGE_NAME . '&route=archive'));
+        if (!isset($_SERVER['REQUEST_METHOD']) || !isset($_GET['route'])) {
+            \wp_safe_redirect(\admin_url('admin.php?page=' . \esc_attr(METAGALLERY_PAGE_NAME) . '&route=archive'));
             exit;
         }
 
+        // Create a REST reqquest object for simplicity.
+        $request = new \WP_REST_Request(
+            \sanitize_text_field(\wp_unslash($_SERVER['REQUEST_METHOD'])),
+            // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+            \esc_url(\admin_url('admin.php?page=' . METAGALLERY_PAGE_NAME . '&route=' . \sanitize_text_field(\wp_unslash($_GET['route'])))),
+        );
+        // phpcs:ignore WordPress.Security.NonceVerification.Recommended,WordPress.Security.NonceVerification.Missing
+        $request->set_body_params($request->get_method() === 'GET' ? $_GET : $_POST);
+
+        // If this is a POST request, look for the nonce and verify it (also check capability).
+        if ($request->get_method() === 'POST') {
+            // phpcs:ignore WordPress.Security.NonceVerification.Recommended,Generic.PHP.DisallowRequestSuperglobal.Found
+            if (!isset($_REQUEST['HTTP_X_WP_NONCE'])) {
+                \wp_die(\esc_html__('You do not have permission to do that.', 'metagallery'));
+            }
+
+            // phpcs:ignore WordPress.Security.NonceVerification.Recommended,Generic.PHP.DisallowRequestSuperglobal.Found
+            if (!$this->doubleCheckPermission(sanitize_text_field(wp_unslash($_REQUEST['HTTP_X_WP_NONCE'])))) {
+                \wp_die(\esc_html__('You do not have permission to do that.', 'metagallery'));
+            }
+        }
+
         // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-        $callback = $this->routes[sanitize_text_field(wp_unslash($_GET['route']))];
+        $callback = $this->routes[$request->get_method()][\sanitize_text_field(\wp_unslash($_GET['route']))];
+
+        // The route must be registered.
         if ($callback) {
             if (is_array($callback) && class_exists($callback[0])) {
                 $class = new $callback[0]();
                 if (method_exists($class, $callback[1])) {
-                    return call_user_func([$class, $callback[1]]);
+                    return call_user_func_array(
+                        [
+                            $class,
+                            $callback[1],
+                        ],
+                        [$request]
+                    );
                 }
             }
         }
 
         // Default to archive page.
         \wp_safe_redirect(
-            \admin_url('admin.php?page=' . METAGALLERY_PAGE_NAME . '&route=archive')
+            \admin_url('admin.php?page=' . \esc_attr(METAGALLERY_PAGE_NAME) . '&route=archive')
         );
         exit;
     }
@@ -191,6 +243,20 @@ class AdminRouter
     }
 
     /**
+     * Double checks the user has permission
+     *
+     * @since 0.1.0
+     * @param string $nonce - The nonce.
+     *
+     * @return boolean
+     */
+    public function doubleCheckPermission($nonce)
+    {
+        // Check for the nonce on the server (used by WP REST).
+        return \wp_verify_nonce($nonce, 'wp_rest') && \current_user_can(App::$capability);
+    }
+
+    /**
      * Makes sure we are on the correct page
      *
      * @since 0.1.0
@@ -204,7 +270,7 @@ class AdminRouter
         }
 
         // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-        return isset($_GET['page']) && (sanitize_text_field(wp_unslash($_GET['page'])) === METAGALLERY_PAGE_NAME);
+        return isset($_GET['page']) && (\sanitize_text_field(\wp_unslash($_GET['page'])) === METAGALLERY_PAGE_NAME);
     }
 
     /**

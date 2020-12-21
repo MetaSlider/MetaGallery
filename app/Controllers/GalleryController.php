@@ -39,7 +39,7 @@ class GalleryController
         if (isset($_GET['gallery'])) {
             // Remove the gallery param if it's set.
             \wp_safe_redirect(
-                \admin_url('admin.php?page=' . METAGALLERY_PAGE_NAME . '&route=archive')
+                \admin_url('admin.php?page=' . \esc_attr(METAGALLERY_PAGE_NAME) . '&route=archive')
             );
             exit;
         }
@@ -47,7 +47,8 @@ class GalleryController
         $galleries = Gallery::get()->all();
         if (!$galleries) {
             \wp_safe_redirect(
-                \admin_url('admin.php?page=' . METAGALLERY_PAGE_NAME . '&route=start')
+                // For now, re-route users with no galleries to the start page.
+                \admin_url('admin.php?page=' . \esc_attr(METAGALLERY_PAGE_NAME) . '&route=start')
             );
             exit;
         }
@@ -66,7 +67,7 @@ class GalleryController
         if (isset($_GET['gallery'])) {
             // Remove the gallery param if it's set.
             \wp_safe_redirect(
-                \admin_url('admin.php?page=' . METAGALLERY_PAGE_NAME . '&route=create')
+                \admin_url('admin.php?page=' . \esc_attr(METAGALLERY_PAGE_NAME) . '&route=create')
             );
             exit;
         }
@@ -76,17 +77,28 @@ class GalleryController
 
     /**
      * Store a newly created resource in storage.
+     * Note: Users without Auth and capability cannot reach this method.
+     *
+     * @param WP_REST_Request $request - The request.
      *
      * @return void
      */
-    public function store()
+    public function store($request)
     {
-        // TODO: Validate gallery.
+        // Do not pass in a default config or the like as MS does,
+        // since that will tie the config to a version. Just check...
+        // every setting on the way out (when rendering the UI)...
+        // or pass in config from the front to the back!
         $gallery = new Gallery();
-        $gallery->title = 'Title';
+        $gallery->title = \sanitize_text_field($request->get_param('title'));
         $gallery->images = [];
         $gallery->settings = [];
-        $gallery->save();
+        $id = $gallery->save();
+
+        \wp_safe_redirect(
+            \admin_url('admin.php?page=' . \esc_attr(METAGALLERY_PAGE_NAME) . '&route=single&gallery=' . \esc_attr($id))
+        );
+        exit;
     }
 
     /**
@@ -100,7 +112,7 @@ class GalleryController
         if (!isset($_GET['gallery'])) {
             // TODO: Flash message if they tried to access a gallery that wasnt set.
             \wp_safe_redirect(
-                \admin_url('admin.php?page=' . METAGALLERY_PAGE_NAME . '&route=archive')
+                \admin_url('admin.php?page=' . \esc_attr(METAGALLERY_PAGE_NAME) . '&route=archive')
             );
             exit;
         }
@@ -115,7 +127,7 @@ class GalleryController
         if (!$gallery) {
             // TODO: Flash message if they tried to access a gallery doesnt exist.
             \wp_safe_redirect(
-                \admin_url('admin.php?page=' . METAGALLERY_PAGE_NAME . '&route=archive')
+                \admin_url('admin.php?page=' . \esc_attr(METAGALLERY_PAGE_NAME) . '&route=archive')
             );
             exit;
         }

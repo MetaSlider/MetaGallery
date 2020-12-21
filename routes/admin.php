@@ -13,6 +13,8 @@ use Extendify\MetaGallery\Controllers\GalleryController;
 // Opens possability for namespaced pages if we need to change the implementation but preserve the old pages.
 // ie, the first parameter is the namespace.
 AdminRouter::get('', 'archive', [GalleryController::class, 'index']);
+AdminRouter::post('', 'archive', [GalleryController::class, 'store']);
+
 AdminRouter::get('', 'create', [GalleryController::class, 'create']);
 AdminRouter::get('', 'single', [GalleryController::class, 'show']);
 AdminRouter::get('', 'start', [GalleryController::class, 'start']);

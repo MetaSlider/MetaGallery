@@ -64,12 +64,20 @@ abstract class Model
     // phpcs:enable
 
     /**
+     * The constructor
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->dbKey = App::$slug;
+    }
+    /**
      * Should return the model post type.
      *
      * @return string
      */
     abstract public function getPostType();
-
 
     /**
      * Wrapper for returning the query.
@@ -192,7 +200,7 @@ abstract class Model
     /**
      * Save a new model.
      *
-     * @return void
+     * @return int
      */
     public function save()
     {
@@ -202,15 +210,19 @@ abstract class Model
             $properties[$prop->name] = $class->getProperty($prop->name)->getValue($this);
         }
 
+        // TODO: Handle wp_error.
         $id = \wp_insert_post(
             [
                 'post_status' => 'publish',
                 'post_type' => $this->getPostType(),
             ]
         );
+
         foreach ($properties as $key => $value) {
-            update_post_meta($id, $this->dbKey . '-' . $key, $value);
+            \update_post_meta($id, $this->dbKey . '-' . $key, $value);
         }
+
+        return $id;
     }
 
     /**
@@ -234,7 +246,6 @@ abstract class Model
     public static function get()
     {
         $class = new static();
-        $class->dbKey = App::$slug;
         return $class;
     }
 
@@ -248,7 +259,6 @@ abstract class Model
     public static function getWith(array $fields)
     {
         $class = new static();
-        $class->dbKey = App::$slug;
         $class->wantedAttributes = $fields;
         return $class;
     }
