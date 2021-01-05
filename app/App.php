@@ -51,7 +51,7 @@ class App
      * @since 0.1.0
      * @var string
      */
-    public static $capability = 'edit_posts';
+    public static $capability = 'manage_options';
 
     /**
      * Plugin text domain

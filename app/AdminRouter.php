@@ -99,6 +99,19 @@ class AdminRouter
     }
 
     /**
+     * Put route handler
+     *
+     * @param string $namespace - The api name space.
+     * @param string $endpoint  - The endpoint.
+     * @param string $callback  - The callback to run.
+     *
+     * @return void
+     */
+    public function putHandler(string $namespace, string $endpoint, $callback)
+    {
+    }
+
+    /**
      * The route handler.
      *
      * @return void
@@ -253,7 +266,7 @@ class AdminRouter
     public function doubleCheckPermission($nonce)
     {
         // Check for the nonce on the server (used by WP REST).
-        return \wp_verify_nonce($nonce, 'wp_rest') && \current_user_can(App::$capability);
+        return \wp_verify_nonce($nonce, 'wp_metagallery') && \current_user_can(App::$capability);
     }
 
     /**
@@ -281,10 +294,12 @@ class AdminRouter
      */
     public function addScopedScriptsAndStyles()
     {
+        \wp_enqueue_media();
+
         \wp_register_script(
             App::$slug . '-scripts',
             METAGALLERY_BASE_URL . 'public/build/metagallery.js',
-            [],
+            ['wp-i18n'],
             App::$version,
             true
         );
@@ -292,11 +307,14 @@ class AdminRouter
             App::$slug . '-scripts',
             App::$slug . 'Data',
             [
-                'root' => esc_url_raw(rest_url(APP::$slug . '/' . APP::$apiVersion)),
-                'nonce' => wp_create_nonce('wp_rest'),
+                'root' => \esc_url_raw(rest_url(APP::$slug . '/' . APP::$apiVersion)),
+                'nonce' => \wp_create_nonce('wp_rest'),
             ]
         );
         \wp_enqueue_script(App::$slug . '-scripts');
+
+        \wp_set_script_translations(App::$slug . '-scripts', App::$textDomain);
+
         \wp_enqueue_style(
             App::$slug . '-theme',
             METAGALLERY_BASE_URL . 'public/build/theme.css',

@@ -2,7 +2,7 @@
 #wpbody-content,
 #wpcontent,
 #wpfooter {
-    @apply p-0;
+    padding: 0 !important;
 }
 ul#adminmenu a.wp-has-current-submenu:after,
 ul#adminmenu > li.current > a.current:after {
@@ -19,4 +19,11 @@ ul#adminmenu > li.current > a.current:after {
 }
 #footer-left {
     @apply px-4;
+}
+[id^='__wp-uploader-id'].supports-drag-drop {
+    @apply z-max;
+}
+#wp-auth-check-wrap #wp-auth-check,
+#wp-auth-check-wrap #wp-auth-check-bg {
+    @apply z-max;
 }

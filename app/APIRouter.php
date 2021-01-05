@@ -88,7 +88,7 @@ class APIRouter extends \WP_REST_Controller
     }
 
     /**
-     * Register dynamic routes
+     * The post handler
      *
      * @param string $namespace - The api name space.
      * @param string $endpoint  - The endpoint.
@@ -97,6 +97,32 @@ class APIRouter extends \WP_REST_Controller
      * @return void
      */
     public function postHandler(string $namespace, string $endpoint, $callback)
+    {
+        \register_rest_route(
+            $namespace,
+            $endpoint,
+            [
+                'methods' => 'POST',
+                'callback' => new $callback(),
+                'permission_callback' => [
+                    $this,
+                    'checkPermission',
+                ],
+            ],
+            true,
+        );
+    }
+
+    /**
+     * Put handler - but couldn't get data to pass though!
+     *
+     * @param string $namespace - The api name space.
+     * @param string $endpoint  - The endpoint.
+     * @param string $callback  - The callback to run.
+     *
+     * @return void
+     */
+    public function putHandler(string $namespace, string $endpoint, $callback)
     {
     }
 }

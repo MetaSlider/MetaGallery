@@ -17,15 +17,15 @@ use Extendify\MetaGallery\Contracts\BasicRoute;
  *
  * @since 0.1.0
  */
-class GalleryRoute implements BasicRoute
+class Galleries implements BasicRoute
 {
     /**
      * Return all galleries
      *
-     * @param WP_REST_Request $request - The request.
+     * @param \WP_REST_Request $request - The request.
      * @return WP_Query
      */
-    public function __invoke($request)
+    public function __invoke(\WP_REST_Request $request)
     {
         if ($request) {
             return Gallery::get()->all();

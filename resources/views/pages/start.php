@@ -11,32 +11,25 @@ if (!defined('ABSPATH')) {
 <div class="max-w-screen-md mx-auto">
     <p class="text-center">
 <?php
-    \esc_html_e('Hi, welcome the gallery project by MetaSlider. <strong>Redefining WordPress galleries</strong>.', 'metagallery');
+printf(
+    // translators: %s are anchor tags i.e. <strong></strong>.
+    \esc_html__('Hi, welcome the gallery project by MetaSlider. %1$sRedefining WordPress galleries%2$s.', 'metagallery'),
+    '<strong>',
+    '</strong>'
+);
 ?>
     </p>
     <div class="my-20 flex items-center justify-center">
-    <!-- For now this will immediately create a gallery and move to the archive page.
-        However, I'd like to have a middle step to let users pre select a gallery layout.
-        It's set up with a start, create, archive, and single page system but I think
-        we can just use the archive page as the builder for now until it gets more complex
-        ie. no single page and no create page
-
-        TODO: use alpine to create a gallery, then redirect to the archive page
-    -->
-        <form
-            x-data=""
-            method="POST"
-            action="<?php echo \esc_url(\admin_url('admin.php?page=' . METAGALLERY_PAGE_NAME . '&route=archive')); ?>">
-            <input type="text" name="title" value="sup">
-            <input type="hidden" name="HTTP_X_WP_NONCE" value="<?php echo \esc_attr(\wp_create_nonce('wp_rest')); ?>">
-            <button type="submit"
-                class="flex items-center transition duration-250 px-6 py-1 bg-nord4 hover:bg-nord1 hover:text-nord6 shadow-sm text-base font-medium rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-nord8">
-                <?php \esc_html_e('Start Here', 'metagallery'); ?>
-            </button>
-        </form>
+        <?php require METAGALLERY_PATH . 'resources/views/parts/create-gallery-simple.php'; ?>
     </div>
     <div class="bg-nord5 p-10 py-6">
-        <h3 class="mb-3"><?php \esc_html_e('MetaGallery will be build following these principles:', 'metagallery'); ?></h3>
+        <!--
+            Super secret dev motivations:
+            1. YAGNI
+            2. No jQuery unless required to interact with WP
+            3. Keep the project open for extention. Try not to close up the code or lock in.
+        -->
+        <h3 class="mb-3"><?php \esc_html_e('MetaGallery will be built following these principles:', 'metagallery'); ?></h3>
         <ul>
             <li>
             <?php
@@ -55,7 +48,14 @@ if (!defined('ABSPATH')) {
             <li>
             <?php
                 // translators: %s is an emoji.
-                printf(\esc_html__('%s Easy to learn, fun to master. With advanced features for those who need them.', 'metagallery'), '⛵');
+                printf(\esc_html__('%s Fully WCAG accessible - All users will be able to enjoy your galleries.', 'metagallery'), '⌨️');
+            ?>
+            </li>
+
+            <li>
+            <?php
+                // translators: %s is an emoji.
+                printf(\esc_html__('%s Easy to use, fun to master. With advanced features for those who need them.', 'metagallery'), '⛵');
             ?>
             </li>
         </ul>

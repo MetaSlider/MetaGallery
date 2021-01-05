@@ -17,6 +17,7 @@ AdminRouter::post('', 'archive', [GalleryController::class, 'store']);
 
 AdminRouter::get('', 'create', [GalleryController::class, 'create']);
 AdminRouter::get('', 'single', [GalleryController::class, 'show']);
+AdminRouter::post('', 'single', [GalleryController::class, 'destroy']);
 AdminRouter::get('', 'start', [GalleryController::class, 'start']);
 
 \add_action(

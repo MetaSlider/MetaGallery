@@ -47,6 +47,17 @@ trait Routable
     abstract public function postHandler(string $namespace, string $endpoint, $callback);
 
     /**
+     * The handler for put requests
+     *
+     * @param string $namespace - The namespace.
+     * @param string $endpoint  - The endpoint being called.
+     * @param string $callback  - The callback function.
+     *
+     * @return mixed
+     */
+    abstract public function putHandler(string $namespace, string $endpoint, $callback);
+
+    /**
      * The caller
      *
      * @param string $name      - The name of the method to call.

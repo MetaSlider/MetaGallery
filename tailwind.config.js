@@ -1,4 +1,5 @@
 module.exports = {
+    important: true,
     purge: {
         enabled: process.env.BUILD === 'production',
         content: ['resources/views/**/*.php', 'resources/js/**/*.js'],
@@ -9,7 +10,15 @@ module.exports = {
             heading: ['Rubik', 'sans-serif'],
             body: ['"IBM Plex Sans"', 'sans-serif'],
         },
+        screens: {
+            sm: '600px',
+            md: '782px',
+            lg: '961px',
+            xl: '1280px',
+            '2xl': '1536px',
+        },
         colors: {
+            white: '#ffffff',
             nord0: '#2E3440',
             nord1: '#3B4252',
             nord2: '#434C5E',
@@ -27,9 +36,17 @@ module.exports = {
             nord14: '#A3BE8C',
             nord15: '#B48EAD',
         },
+        extend: {
+            zIndex: {
+                high: '10000000',
+                max: '2147483647',
+            },
+        },
     },
     variants: {
-        extend: {},
+        extend: {
+            padding: ['focus'],
+        },
     },
     plugins: [],
 }

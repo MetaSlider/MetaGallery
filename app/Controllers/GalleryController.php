@@ -11,6 +11,7 @@ if (!defined('ABSPATH')) {
 
 use Extendify\MetaGallery\View;
 use Extendify\MetaGallery\Models\Gallery;
+use Extendify\MetaGallery\App;
 
 /**
  * The controller for galleries
@@ -53,7 +54,7 @@ class GalleryController
             exit;
         }
 
-        return View::queue('archive', 'main', ['galleries' => $galleries]);
+        return View::queue('archive', 'landing', ['galleries' => $galleries]);
     }
 
     /**
@@ -79,15 +80,15 @@ class GalleryController
      * Store a newly created resource in storage.
      * Note: Users without Auth and capability cannot reach this method.
      *
-     * @param WP_REST_Request $request - The request.
+     * @param \WP_REST_Request $request - The request.
      *
      * @return void
      */
-    public function store($request)
+    public function store(\WP_REST_Request $request)
     {
         // Do not pass in a default config or the like as MS does,
-        // since that will tie the config to a version. Just check...
-        // every setting on the way out (when rendering the UI)...
+        // since that will tie the config to a version. Just check
+        // every setting on the way out (when rendering the UI)
         // or pass in config from the front to the back!
         $gallery = new Gallery();
         $gallery->title = \sanitize_text_field($request->get_param('title'));
@@ -148,28 +149,62 @@ class GalleryController
     // }
     // phpcs:enable
 
-    // phpcs:disable
     /**
      * Update the specified resource in storage.
      *
-     * @param  int  $id
+     * @param  \WP_REST_Request $request - The request.
      * @return Response
      */
-    // public function update($id)
-    // {
-    //     //
-    // }
-    // phpcs:enable
+    public function update(\WP_REST_Request $request)
+    {
+        $id = $request['id'];
+        if (\get_post_type($request['id']) !== 'metagallery') {
+            return new \WP_Error(
+                'update_unauthorized',
+                \esc_html__('You are not authorized to update this Gallery', 'metagallery')
+            );
+        }
 
-    // phpcs:disable
+        // Always include the title, but use whitelist for others.
+        \update_post_meta($id, 'metagallery-title', $request->get_param('title'));
+        foreach ($request->get_params() as $key => $value) {
+            if (in_array($key, ['settings', 'images'], true)) {
+                \update_post_meta($id, 'metagallery-' . $key, json_decode($value, true));
+            }
+        }
+
+        // Update gallery last modified time.
+        wp_update_post(['ID' => $id]);
+
+        // API request.
+        if ($request->get_header('x_requested_with') === 'XMLHttpRequest') {
+            return (Gallery::get()->where(['p' => $id])->query())[0];
+        }
+
+        \wp_safe_redirect(
+            \admin_url('admin.php?page=' . \esc_attr(METAGALLERY_PAGE_NAME) . '&route=single&gallery=' . \esc_attr($id))
+        );
+        exit;
+    }
+
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return Response
+     * @param \WP_REST_Request $request - The request.
+     *
+     * @return void
      */
-    // public function destroy($id)
-    // {
-    // }
-    // phpcs:enable
+    public function destroy(\WP_REST_Request $request)
+    {
+        $id = intval($request->get_param('galleryId'));
+        if (get_post_type($id) === 'metagallery') {
+            wp_trash_post($id);
+        }
+
+        // TODO: 'flash' a message?
+        \wp_safe_redirect(
+            \admin_url('admin.php?page=' . \esc_attr(METAGALLERY_PAGE_NAME) . '&route=archive')
+        );
+        exit;
+    }
 }
