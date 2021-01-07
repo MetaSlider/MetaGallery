@@ -46,6 +46,7 @@ module.exports = {
     variants: {
         extend: {
             padding: ['focus'],
+            ringColor: ['hover'],
         },
     },
     plugins: [],

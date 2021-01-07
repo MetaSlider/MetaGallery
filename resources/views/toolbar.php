@@ -11,7 +11,11 @@ if (!defined('ABSPATH')) {
 ?>
 
 <div class="bg-nord4 text-nord0 px-4 h-12 flex items-center justify-between flex-shrink-0">
-    <h1 class="flex-1 font-medium font-heading text-nord0 whitespace-nowrap text-left">MetaGallery</h1>
+    <h1
+        class="flex-1 font-medium font-heading text-nord0 whitespace-nowrap text-left"
+        :class="{ 'cursor-pointer': $component('settings').fullScreen }"
+        @click="$component('settings').updateSetting('fullScreen', false)"
+    >MetaGallery</h1>
     <div class="flex-1 flex justify-center">
         <?php require METAGALLERY_PATH . 'resources/views/parts/add-images-button.php'; ?>
     </div>

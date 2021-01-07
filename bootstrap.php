@@ -7,6 +7,7 @@ if (!defined('ABSPATH')) {
     die('No direct access.');
 }
 
+use Extendify\MetaGallery\Shortcode;
 use Extendify\MetaGallery\AdminRouter;
 
 if (!defined('METAGALLERY_PATH')) {

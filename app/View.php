@@ -94,11 +94,11 @@ class View
      * Example: View::shortcode()
      *
      * @since 0.1.0
-     * @param string $name       The name of the view file
-     * @param string $arguements On enumerated array containing the parameters passed to the $name'ed method
+     * @param string $name The name of the view file
+     * @param string $data On enumerated array containing the parameters passed to the $name'ed method
      * @return object
      */
-    public static function __callStatic($name, $arguments)
+    public static function __callStatic($name, $data)
     {
         // phpcs:enable
         $view = METAGALLERY_PATH . "resources/views/{$name}.php";

@@ -5,6 +5,9 @@
 
 namespace Extendify\MetaGallery;
 
+use Extendify\MetaGallery\App;
+use Extendify\MetaGallery\Models\Gallery;
+
 /**
  * Handles setting up the shortcode.
  *
@@ -23,12 +26,19 @@ class Shortcode
     {
         add_shortcode(
             App::$slug,
-            function () {
+            function ($attributes) {
+                $attributes = shortcode_atts(['id' => 0], $attributes, 'metagallery');
+
+                $metagallery = Gallery::get()->where(['p' => intval($attributes['id'])])->first();
+                if (\get_post_type($metagallery) !== 'metagallery') {
+                    return '<!-- MetaGallery: Invalid Gallery -->';
+                }
+
                 $this->addStyles();
                 $this->addScripts();
 
                 ob_start();
-                View::shortcode();
+                View::shortcode($metagallery);
                 return ob_get_clean();
             }
         );
@@ -42,8 +52,13 @@ class Shortcode
      */
     public function addStyles()
     {
-        wp_enqueue_style(App::$slug . '-styles');
-        wp_add_inline_style(App::$slug . '-styles', '[x-cloak] { display: none; }');
+        \wp_enqueue_style(
+            App::$slug . '-styles',
+            METAGALLERY_BASE_URL . 'public/build/metagallery-styles.css',
+            [],
+            App::$version,
+            'all'
+        );
     }
 
     /**
@@ -54,16 +69,9 @@ class Shortcode
      */
     public function addScripts()
     {
-        wp_enqueue_script(
-            App::$slug . '-axios',
-            'https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js',
-            [],
-            App::$version,
-            true
-        );
-        wp_enqueue_script(
+        \wp_enqueue_script(
             App::$slug . '-alpine',
-            'https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js',
+            METAGALLERY_BASE_URL . 'public/build/metagallery-scripts.js',
             [],
             App::$version,
             true

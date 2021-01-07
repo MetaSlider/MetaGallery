@@ -121,7 +121,7 @@ class GalleryController
         $gallery = Gallery::get()->where(
             [
                 // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-                'p' => (string) sanitize_text_field(wp_unslash($_GET['gallery'])),
+                'p' => (string) \sanitize_text_field(\wp_unslash($_GET['gallery'])),
             ]
         )->query();
 
@@ -174,7 +174,7 @@ class GalleryController
         }
 
         // Update gallery last modified time.
-        wp_update_post(['ID' => $id]);
+        \wp_update_post(['ID' => $id]);
 
         // API request.
         if ($request->get_header('x_requested_with') === 'XMLHttpRequest') {
@@ -197,8 +197,8 @@ class GalleryController
     public function destroy(\WP_REST_Request $request)
     {
         $id = intval($request->get_param('galleryId'));
-        if (get_post_type($id) === 'metagallery') {
-            wp_trash_post($id);
+        if (\get_post_type($id) === 'metagallery') {
+            \wp_trash_post($id);
         }
 
         // TODO: 'flash' a message?

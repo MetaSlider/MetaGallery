@@ -170,7 +170,7 @@ abstract class Model
     public function first()
     {
         $this->postsPerPage = 1;
-        return $this->query();
+        return $this->query()[0];
     }
 
     /**

@@ -29,6 +29,20 @@ export default function Gallery() {
                 { index: 0 },
             )
         },
+        removeImages(images) {
+            // Not the most effecient filter, but there's no mechinism
+            // currently to remove multiple images, so it's fine
+            this.$component('current').dirty = true
+            const gridItems = window.metagalleryGrid.getItems()
+            window.metagalleryGrid.remove(
+                images.map((i) =>
+                    gridItems.find(
+                        (img) => img.getElement().querySelector('[x-data]').__x.getUnobservedData()._uid == i,
+                    ),
+                ),
+                { removeElements: true },
+            )
+        },
         buildImage(image) {
             var itemElem = document.createElement('div')
             var itemTemplate = GalleryImageMarkup(image)

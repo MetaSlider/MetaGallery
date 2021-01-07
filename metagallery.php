@@ -44,6 +44,7 @@ if (!class_exists('MetaGallery')) :
                 self::$loaded = true;
                 require dirname(__FILE__) . '/bootstrap.php';
                 $app = new Extendify\MetaGallery\App();
+                $shortcode = new Extendify\MetaGallery\Shortcode();
                 if (!defined('METAGALLERY_BASE_URL')) {
                     define('METAGALLERY_BASE_URL', plugin_dir_url($app::$textDomain));
                 }

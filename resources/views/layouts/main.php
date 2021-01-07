@@ -15,7 +15,7 @@ if (!defined('ABSPATH')) {
         lastRefresh: Date.now(),
         get adminBarHeight() { return document.getElementById('wpadminbar').scrollHeight }
     }"
-    class="metagallery-allowed z-high bg-nord6 font-body inset-0 pb-6 text-base w-full flex flex-col"
+    class="metagallery-allowed z-high bg-nord6 font-body inset-0 text-base w-full flex flex-col"
     :style="`min-height:calc(100vh - ${adminBarHeight}px)`"
     @resize.window.debounce.200="lastRefresh = Date.now()"
     :class="{ 'md:fixed' : $component('settings').fullScreen }">
@@ -30,6 +30,7 @@ if (!defined('ABSPATH')) {
     ?>
 
     <?php require METAGALLERY_PATH . 'resources/views/settings/gallery-settings.php'; ?>
+    <?php require METAGALLERY_PATH . 'resources/views/settings/image-settings.php'; ?>
 </div>
 
 <div x-data x-title="State Management" aria-hidden="true">

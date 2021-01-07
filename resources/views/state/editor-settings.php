@@ -16,15 +16,17 @@ if (!defined('ABSPATH')) {
         bgcolor: JSON.parse(localStorage.getItem('metagallery-theme')),
         editorWidth: JSON.parse(localStorage.getItem('metagallery-editorwidth')) || 1000,
         updateSetting(setting, value) {
-            console.log(`MetaGallery: Updating ${setting} to:`, value)
+            console.log(`MetaGallery Editor: Updating ${setting} to:`, value)
             this[setting] = value
             localStorage.setItem(`metagallery-${setting.toLowerCase()}`, JSON.stringify(value))
-            window.dispatchEvent(
-                new CustomEvent('reset-layout', {
-                    detail: {},
-                    bubbles: true,
-                }),
-            )
+            setTimeout(() => {
+                window.dispatchEvent(
+                    new CustomEvent('reset-layout', {
+                        detail: {},
+                        bubbles: true,
+                    }),
+                )
+            }, 0)
         }
     }"
     x-id="settings"></div>

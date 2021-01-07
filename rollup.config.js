@@ -47,9 +47,10 @@ const createConfig = ([filename, filelocation]) => ({
                 require('tailwindcss'),
                 require('postcss-nested'),
                 require('autoprefixer'),
-                process.env.BUILD === 'production' && require('cssnano')({
-                    preset: 'default',
-                }),
+                process.env.BUILD === 'production' &&
+                    require('cssnano')({
+                        preset: 'default',
+                    }),
             ],
         }),
         json(),
@@ -66,5 +67,7 @@ const createConfig = ([filename, filelocation]) => ({
 
 export default Object.entries({
     metagallery: 'resources/js/metagallery',
+    'metagallery-scripts': 'resources/js/public',
     theme: `import metagallery from '${path.resolve('resources/css/metagallery.css')}'`,
+    'metagallery-styles': `import metagallery from '${path.resolve('resources/css/public.css')}'`,
 }).map(createConfig)

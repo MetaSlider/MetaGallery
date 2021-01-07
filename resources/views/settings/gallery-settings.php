@@ -27,9 +27,10 @@ if (!defined('ABSPATH')) {
     :aria-hidden="open.toString()"
     x-init="init()">
     <div
-        class="fixed transition duration-300 right-0 top-0 shadow-2xl transform w-full max-w-xs h-screen z-max bg-white overflow-hidden"
+        class="fixed transition duration-300 right-0 top-0 transform w-full max-w-xs h-screen z-max bg-white overflow-hidden"
         :class="{
-            'translate-x-full': !open
+            'translate-x-full': !open,
+            'shadow-2xl': open,
         }">
         <button
             @click="open = false"

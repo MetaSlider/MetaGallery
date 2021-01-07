@@ -8,7 +8,7 @@ if (!defined('ABSPATH')) {
 }
 
 ?>
-<nav class="flex p-4" aria-label="Breadcrumb">
+<nav class="flex p-4 bg-nord5" aria-label="Breadcrumb">
     <ol class="flex items-center space-x-2">
         <li class="m-0">
             <div class="flex items-center">

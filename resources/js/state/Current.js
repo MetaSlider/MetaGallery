@@ -50,6 +50,18 @@ export default function Current(data) {
             this.settings[setting] = value
             this.updateLayout()
         },
+        updateImageSetting(imageId, setting, value) {
+            console.log(`MetaGallery: Updating image ${imageId} ${setting} to:`, value)
+            this.dirty = true
+            let image = this.images.find((i) => i._uid == imageId)
+            image.alt = value
+            this.updateLayout()
+        },
+        // getImageSetting(imageId, setting) {
+        //     if (!imageId) return ''
+        //     let image = this.images.find((i) => i._uid == imageId)
+        //     return image[setting]
+        // },
         addImages(images) {
             console.log(`MetaGallery: Adding ${images.length} ${images.length > 1 ? 'images' : 'image'}`)
             this.dirty = true

@@ -9,22 +9,17 @@ if (!defined('ABSPATH')) {
 ?>
 
 <!-- TODO:
-1. Delete images
-1. Add image properties (alt tags only)
 1. show via shortcode
 
-
 Sooner
-1. Add image resizing that auto refreshes
-1. Add image dropdown for deleting, adding attributes
 1. Hold off on captions for initial release
 
 1. Add muuri config override
 1. add indiviual image output override? maybe!
 
 Later:
+1. Per image re-sizing?
 1. Add unpublish option (publish by default)
-1. Add delete me option
 -->
 
 <div
@@ -32,9 +27,10 @@ Later:
     x-data="Gallery()"
     x-id="theGallery"
     @metagallery-images-added.window="addImages($event.detail.images)"
+    @metagallery-images-removed.window="removeImages($event.detail.images)"
     @reset-layout.window="window.metagalleryGrid.refreshItems().layout(true)"
     @load.window="init()"
-    class="text-center flex-grow flex relative z-0 px-4">
+    class="text-center flex-grow flex relative z-0 p-4 py-8 shadow-inner overflow-scroll">
     <div :x-id="`metagallery-grid-${$component('current').data.ID}`" class="relative w-full">
         <!-- Grid container -->
     </div>
