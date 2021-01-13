@@ -21,7 +21,7 @@ if (!defined('ABSPATH')) {
             <input type="text" x-model="title" x-ref="title" name="title" autocomplete="off" class="shadow-sm px-4 p-2 sm:text-lg focus:ring-2 focus:ring-nord8 focus:border-nord8 block w-full rounded-md" placeholder="" aria-describedby="title-description">
         </div>
         <p class="mt-2 text-sm text-gray-500" id="title-description">
-        <?php \esc_html_e('Give your first gallery a name.', 'metagallery'); ?></p>
+        <?php \esc_html_e('Give your gallery a name.', 'metagallery'); ?></p>
     </div>
     <div>
         <button type="submit"
