@@ -17,7 +17,7 @@ export function GalleryImageMarkup(image) {
                 x-title="Gallery Image"
                 x-data="GalleryImage(${image._uid})"
                 x-init="init()"
-                class="group">
+                class="group cursor-move">
                 <button
                     x-cloak
                     class="transition p-2 rounded-full duration-200 bg-nord0 text-nord13 absolute top-2 right-2 opacity-0 group-hover:opacity-100 focus:outline-none ring-2 ring-nord2 focus:ring-nord9 ring-opacity-70 focus:ring-opacity-100 focus:text-nord9"

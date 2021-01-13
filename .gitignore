@@ -1,5 +1,7 @@
 .DS_Store
-/vendor
+vendor/*
+!vendor/composer
+!vendor/autoload.php
 node_modules
 
 cypress/integration/examples

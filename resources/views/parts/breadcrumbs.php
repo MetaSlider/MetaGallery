@@ -36,7 +36,7 @@ if (!defined('ABSPATH')) {
                     @keydown.escape.stop="$event.target.blur()"
                     @input="$component('current').updateTitle($event.target.textContent)"
                     x-text="$component('current').title || '<?php \esc_html_e('Title not set', 'metagallery'); ?>'"
-                    class="hover:underline focus:no-underline focus:p-1 focus:px-2 transition duration-200 focus:bg-white focus:outline-none focus:ring ml-2 text-sm font-medium text-nord3">
+                    class="cursor-pointer hover:underline focus:no-underline focus:p-1 focus:px-2 transition duration-200 focus:bg-white focus:outline-none focus:ring ml-2 text-sm font-medium text-nord3">
                 </span>
             </div>
         </li>
