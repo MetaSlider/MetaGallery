@@ -86,8 +86,6 @@ jobs:
 
       - name: Push changed files to master
         run: git push
-        with:
-          token: ${{ secrets.GH_TOKEN }}
 
       - name: Start MySQL server
         run: sudo service mysql start
