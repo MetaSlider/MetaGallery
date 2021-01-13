@@ -6546,7 +6546,9 @@
                     return setTimeout(resolve, 250)
                 }) // Setup image order
 
-                this.updateImageOrder(window.metagalleryGrid.getItems()) // Reset state
+                if (window.metagalleryGrid) {
+                    this.updateImageOrder(window.metagalleryGrid.getItems())
+                } // Reset state
 
                 this.saving = true
                 this.dirty = false

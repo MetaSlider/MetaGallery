@@ -33,7 +33,9 @@ export default function Current(data) {
             await new Promise((resolve) => setTimeout(resolve, 250))
 
             // Setup image order
-            this.updateImageOrder(window.metagalleryGrid.getItems())
+            if (window.metagalleryGrid) {
+                this.updateImageOrder(window.metagalleryGrid.getItems())
+            }
 
             // Reset state
             this.saving = true

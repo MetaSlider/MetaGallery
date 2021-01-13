@@ -18,7 +18,7 @@ if (!defined('ABSPATH')) {
         <?php require METAGALLERY_PATH . 'resources/views/parts/add-images-button.php'; ?>
     </div>
     <div class="flex-1 flex justify-end items-center">
-    <?php require METAGALLERY_PATH . 'resources/views/parts/share-button.php'; ?>
+        <?php require METAGALLERY_PATH . 'resources/views/parts/share-button.php'; ?>
         <?php require METAGALLERY_PATH . 'resources/views/parts/save-button.php'; ?>
         <?php require METAGALLERY_PATH . 'resources/views/parts/right-dropdown.php'; ?>
     </div>
