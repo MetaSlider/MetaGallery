@@ -118,7 +118,9 @@ jobs:
         continue-on-error: true
 
       - name: Push changed files to master
-        run: git push origin HEAD:master
+        run: git push
+        # with:
+        #   token: ${{ secrets.PAT }}
 
       # https://github.com/bahmutov/cypress-gh-action-split-install
       - name: Cypress cache 1
