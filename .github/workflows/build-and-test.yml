@@ -66,6 +66,29 @@ jobs:
             phpcs -i
             phpcs -q --report=checkstyle . | cs2pr
 
+      - name: Set up git user
+        run: git config --global user.name ${GITHUB_ACTOR}
+
+      - name: Set up git email
+        run: git config --global user.name ${GITHUB_ACTOR}@users.noreply.github.com
+
+      - name: Install NPM packages
+        run: npm ci
+        env:
+          CYPRESS_INSTALL_BINARY: "0"
+
+      - name: Build assets
+        run: npm run build
+
+      - name: Commit build folder if needed #it fails if nothing has changed so we allow an error
+        run: git commit -am 'Build Production Assets'
+        continue-on-error: true
+
+      - name: Push changed files to master
+        run: git push
+        with:
+          token: ${{ secrets.GH_TOKEN }}
+
       - name: Start MySQL server
         run: sudo service mysql start
 
@@ -98,29 +121,6 @@ jobs:
 
       - name: Start PHP server
         run: nohup php -S localhost:8080 > php.log 2>&1 &
-
-      - name: Set up git user
-        run: git config --global user.name ${GITHUB_ACTOR}
-
-      - name: Set up git email
-        run: git config --global user.name ${GITHUB_ACTOR}@users.noreply.github.com
-
-      - name: Install NPM packages
-        run: npm ci
-        env:
-          CYPRESS_INSTALL_BINARY: "0"
-
-      - name: Build assets
-        run: npm run build
-
-      - name: Commit build folder if needed #it fails if nothing has changed so we allow an error
-        run: git commit -am 'Build Production Assets'
-        continue-on-error: true
-
-      - name: Push changed files to master
-        run: git push
-        # with:
-        #   token: ${{ secrets.PAT }}
 
       # https://github.com/bahmutov/cypress-gh-action-split-install
       - name: Cypress cache 1
