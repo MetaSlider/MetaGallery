@@ -104,6 +104,12 @@ jobs:
         env:
           CYPRESS_INSTALL_BINARY: "0"
 
+      - name: Build assets
+        run: npm run build
+      - name: Commit dist folder if needed #it fails if nothing has changed so we allow an error
+        run: git commit -am 'Build Production Assets'
+        continue-on-error: true
+
       # https://github.com/bahmutov/cypress-gh-action-split-install
       - name: Cypress cache 1
         run: npx cypress cache path && npx cypress cache list
