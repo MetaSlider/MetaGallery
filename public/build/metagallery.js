@@ -2549,6 +2549,50 @@
         })
     })
 
+    const e = {
+            start() {
+                if (!window.Alpine) throw new Error('Alpine is required for `alpine-clipboard` to work.')
+                Alpine.addMagicProperty(
+                    'clipboard',
+                    () =>
+                        function (e) {
+                            let t = e
+                            if ('function' == typeof t) t = t()
+                            else if ('string' != typeof t)
+                                try {
+                                    t = JSON.stringify(t)
+                                } catch (e) {
+                                    console.warn(e)
+                                }
+                            const n = document.createElement('textarea')
+                            if (
+                                ((n.value = t),
+                                n.setAttribute('readonly', ''),
+                                (n.style.cssText = 'position:fixed;pointer-events:none;z-index:-9999;opacity:0;'),
+                                document.body.appendChild(n),
+                                navigator.userAgent && navigator.userAgent.match(/ipad|ipod|iphone/i))
+                            ) {
+                                ;(n.contentEditable = !0), (n.readOnly = !0)
+                                const e = document.createRange()
+                                e.selectNodeContents(n)
+                                const t = window.getSelection()
+                                t.removeAllRanges(), t.addRange(e), n.setSelectionRange(0, 999999)
+                            } else n.select()
+                            try {
+                                document.execCommand('copy')
+                            } catch (e) {
+                                console.warn(err)
+                            }
+                            document.body.removeChild(n)
+                        },
+                )
+            },
+        },
+        t = window.deferLoadingAlpine || ((e) => e())
+    window.deferLoadingAlpine = function (n) {
+        e.start(), t(n)
+    }
+
     var alpine = createCommonjsModule(function (module, exports) {
         ;(function (global, factory) {
             module.exports = factory()
@@ -4764,6 +4808,191 @@
         })
     })
 
+    // import { __ } from '@wordpress/i18n' FULL OF BUGS!
+    function MediaLibrary() {
+        return {
+            manager: {},
+            init: function init() {
+                var _this = this
+
+                this.manager = wp.media.frames.file_frame = wp.media({
+                    title: __('Select Images', 'metagallery'),
+                    multiple: true,
+                    library: {
+                        type: 'image',
+                    },
+                })
+                var viewsToRemove = this.manager.states.models.filter(function (view) {
+                    return !['library'].includes(view.id)
+                })
+                this.manager.states.remove(viewsToRemove)
+                this.manager.on('select', function () {
+                    var selection = _this.manager.state().get('selection').toJSON()
+
+                    var images = selection
+                        .filter(function (image) {
+                            return image.type === 'image'
+                        })
+                        .map(function (image) {
+                            return {
+                                _uid: parseInt(Date.now() + Math.floor(Math.random() * 1000000), 10),
+                                height: image.height,
+                                width: image.width,
+                                title: image.title,
+                                alt: image.alt,
+                                caption: image.caption,
+                                src: {
+                                    main: image.sizes.full,
+                                    thumbnail: image.sizes.thumbnail,
+                                },
+                                WP: {
+                                    id: image.id,
+                                },
+                            }
+                        })
+
+                    _this.$component('current').addImages(images)
+                })
+            },
+        }
+    }
+
+    function GalleryImageMarkup(image) {
+        return (
+            "<div\n        x-title=\"Image Wrapper\"\n        x-data=\"{\n            get itemWrapper() {\n                return $el.style.cssText +\n                'width:' + this.$component('current').settings.percentImageWidth + '%;' +\n                'min-width:' + this.$component('current').settings.minImageWidth + 'px;' +\n                'max-width:' + this.$component('current').settings.maxImageWidth + 'px;'\n            },\n\n        }\"\n        class=\"item absolute overflow-hidden\"\n        :style=\"itemWrapper\">\n        <div class=\"item-content relative h-full w-full\">\n            <div\n                x-title=\"Gallery Image\"\n                x-data=\"GalleryImage(" +
+            image._uid +
+            ')"\n                x-init="init()"\n                class="group">\n                <button\n                    x-cloak\n                    class="transition p-2 rounded-full duration-200 bg-nord0 text-nord13 absolute top-2 right-2 opacity-0 group-hover:opacity-100 focus:outline-none ring-2 ring-nord2 focus:ring-nord9 ring-opacity-70 focus:ring-opacity-100 focus:text-nord9"\n                    :class="{ \'opacity-100 ring-4\': open }"\n                    :style="buttonStyles"\n                    @click="$dispatch(\'open-image-settings\', { image: ' +
+            image._uid +
+            ' })">\n                    <svg class="w-6 h-6 block" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">\n                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />\n                    </svg>\n                    <span class="sr-only">' +
+            window.__('edit', 'metagallery') +
+            '</span>\n                </button>\n                <img\n                    class="border-0"\n                    :style="imageStyles"\n                    width="' +
+            image.width +
+            '"\n                    height="' +
+            image.height +
+            '"\n                    src="' +
+            image.src.main.url +
+            '"\n                    alt="' +
+            image.alt +
+            '"/>\n            </div>\n        </div>\n    </div>'
+        )
+    }
+    function GalleryImage(id) {
+        return {
+            _uid: id,
+
+            get open() {
+                return this.$component('image-settings').imageId == this._uid
+            },
+
+            get imageStyles() {
+                return (
+                    '\n                padding:' +
+                    this.$component('current').settings.imageSpacing +
+                    'px;\n            '
+                )
+            },
+
+            get buttonStyles() {
+                return (
+                    '\n                margin-top: ' +
+                    this.$component('current').settings.imageSpacing +
+                    'px;\n                margin-right: ' +
+                    this.$component('current').settings.imageSpacing +
+                    'px;\n            '
+                )
+            },
+
+            init: function init() {
+                setTimeout(function () {
+                    window.dispatchEvent(
+                        new CustomEvent('reset-layout', {
+                            detail: {},
+                            bubbles: true,
+                        }),
+                    )
+                }, 0)
+            },
+        }
+    }
+
+    function Gallery() {
+        return {
+            muuri: null,
+            images: [],
+            init: function init() {
+                var _this = this
+
+                this.images = JSON.parse(JSON.stringify(this.$component('current').images))
+                if (!this.images.length) return
+                window.metagalleryGrid = new window.Muuri(
+                    '[id=metagallery-grid-' + this.$component('current').data.ID + ']',
+                    {
+                        items: this.images.map(function (i) {
+                            return _this.buildImage(i)
+                        }),
+                        dragSortPredicate: {
+                            action: 'move',
+                        },
+                        dragEnabled: true,
+                        layout: {
+                            fillGaps: true, // horizontal: true,
+                        },
+                    },
+                )
+                window.metagalleryGrid.on('move', function (_data) {
+                    _this.$component('current').dirty = true
+                })
+            },
+
+            get containerStyles() {
+                return (
+                    '\n                margin: 0 -' +
+                    this.$component('current').settings.imageSpacing +
+                    'px;\n            '
+                )
+            },
+
+            addImages: function addImages(images) {
+                var _this2 = this
+
+                if (!window.metagalleryGrid) {
+                    return this.init()
+                }
+
+                window.metagalleryGrid.add(
+                    images.map(function (i) {
+                        return _this2.buildImage(i)
+                    }),
+                    {
+                        index: 0,
+                    },
+                )
+            },
+            removeImages: function removeImages(images) {
+                // Not the most effecient filter, but there's no mechinism
+                // currently to remove multiple images, so it's fine
+                this.$component('current').dirty = true
+                var gridItems = window.metagalleryGrid.getItems()
+                window.metagalleryGrid.remove(
+                    images.map(function (i) {
+                        return gridItems.find(function (img) {
+                            return img.getElement().querySelector('[x-data]').__x.getUnobservedData()._uid == i
+                        })
+                    }),
+                    {
+                        removeElements: true,
+                    },
+                )
+            },
+            buildImage: function buildImage(image) {
+                var itemElem = document.createElement('div')
+                var itemTemplate = GalleryImageMarkup(image)
+                itemElem.innerHTML = itemTemplate
+                return itemElem.firstChild
+            },
+        }
+    }
+
     var bind = function bind(fn, thisArg) {
         return function wrap() {
             var args = new Array(arguments.length)
@@ -6260,7 +6489,7 @@
         },
     })
 
-    var Gallery = {
+    var Gallery$1 = {
         all: function all() {
             return Axios$1.get('gallery', {
                 params: {},
@@ -6284,168 +6513,6 @@
         },
     }
 
-    // import { __ } from '@wordpress/i18n' FULL OF BUGS!
-    function MediaLibrary() {
-        return {
-            manager: {},
-            init: function init() {
-                var _this = this
-
-                this.manager = wp.media.frames.file_frame = wp.media({
-                    title: __('Select Images', 'metagallery'),
-                    multiple: true,
-                    library: {
-                        type: 'image',
-                    },
-                })
-                var viewsToRemove = this.manager.states.models.filter(function (view) {
-                    return !['library'].includes(view.id)
-                })
-                this.manager.states.remove(viewsToRemove)
-                this.manager.on('select', function () {
-                    var selection = _this.manager.state().get('selection').toJSON()
-
-                    var images = selection
-                        .filter(function (image) {
-                            return image.type === 'image'
-                        })
-                        .map(function (image) {
-                            return {
-                                _uid: parseInt(Date.now() + Math.floor(Math.random() * 1000000), 10),
-                                height: image.height,
-                                width: image.width,
-                                title: image.title,
-                                alt: image.alt,
-                                caption: image.caption,
-                                src: {
-                                    main: image.sizes.full,
-                                    thumbnail: image.sizes.thumbnail,
-                                },
-                                WP: {
-                                    id: image.id,
-                                },
-                            }
-                        })
-
-                    _this.$component('current').addImages(images)
-                })
-            },
-        }
-    }
-
-    function GalleryImageMarkup(image) {
-        return (
-            '<div class="item absolute">\n        <div class="item-content relative h-full w-full">\n            <div\n                x-title="Gallery Image"\n                x-data="GalleryImage(' +
-            image._uid +
-            ')"\n                x-init="init()"\n                class="group">\n                <button\n                    x-cloak\n                    class="transition p-2 rounded-full duration-200 bg-nord0 text-nord13 absolute top-2 right-2 opacity-0 group-hover:opacity-100 focus:outline-none ring-2 ring-nord2 focus:ring-nord9 ring-opacity-70 focus:ring-opacity-100 focus:text-nord9"\n                    :class="{ \'opacity-100 ring-4\': open }"\n                    @click="$dispatch(\'open-image-settings\', { image: ' +
-            image._uid +
-            ' })">\n                    <svg class="w-6 h-6 block" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">\n                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />\n                    </svg>\n                    <span class="sr-only">' +
-            window.__('edit', 'metagallery') +
-            '</span>\n                </button>\n                <img\n                    class="border-0"\n                    :style="imageStyles"\n                    width="' +
-            image.width +
-            '"\n                    height="' +
-            image.height +
-            '"\n                    src="' +
-            image.src.main.url +
-            '"\n                    alt="' +
-            image.alt +
-            '"/>\n            </div>\n        </div>\n    </div>'
-        )
-    }
-    function GalleryImage(id) {
-        return {
-            _uid: id,
-
-            get open() {
-                return this.$component('image-settings').imageId == this._uid
-            },
-
-            get imageStyles() {
-                return 'max-width:' + this.$component('current').settings.maxImageWidth + 'px'
-            },
-
-            init: function init() {
-                setTimeout(function () {
-                    window.dispatchEvent(
-                        new CustomEvent('reset-layout', {
-                            detail: {},
-                            bubbles: true,
-                        }),
-                    )
-                }, 0)
-            },
-        }
-    }
-
-    function Gallery$1() {
-        return {
-            muuri: null,
-            images: [],
-            init: function init() {
-                var _this = this
-
-                this.images = JSON.parse(JSON.stringify(this.$component('current').images))
-                if (!this.images.length) return
-                window.metagalleryGrid = new window.Muuri(
-                    '[x-id=metagallery-grid-' + this.$component('current').data.ID + ']',
-                    {
-                        items: this.images.map(function (i) {
-                            return _this.buildImage(i)
-                        }),
-                        dragSortPredicate: {
-                            action: 'move',
-                        },
-                        dragEnabled: true,
-                        layout: {
-                            fillGaps: true,
-                        },
-                    },
-                )
-                window.metagalleryGrid.on('move', function (_data) {
-                    _this.$component('current').dirty = true
-                })
-            },
-            addImages: function addImages(images) {
-                var _this2 = this
-
-                if (!window.metagalleryGrid) {
-                    return this.init()
-                }
-
-                window.metagalleryGrid.add(
-                    images.map(function (i) {
-                        return _this2.buildImage(i)
-                    }),
-                    {
-                        index: 0,
-                    },
-                )
-            },
-            removeImages: function removeImages(images) {
-                // Not the most effecient filter, but there's no mechinism
-                // currently to remove multiple images, so it's fine
-                this.$component('current').dirty = true
-                var gridItems = window.metagalleryGrid.getItems()
-                window.metagalleryGrid.remove(
-                    images.map(function (i) {
-                        return gridItems.find(function (img) {
-                            return img.getElement().querySelector('[x-data]').__x.getUnobservedData()._uid == i
-                        })
-                    }),
-                    {
-                        removeElements: true,
-                    },
-                )
-            },
-            buildImage: function buildImage(image) {
-                var itemElem = document.createElement('div')
-                var itemTemplate = GalleryImageMarkup(image)
-                itemElem.innerHTML = itemTemplate
-                return itemElem.firstChild
-            },
-        }
-    }
-
     function Current(data) {
         return {
             data: data,
@@ -6463,7 +6530,10 @@
                 },
             ],
             settings: {
-                maxImageWidth: '300',
+                maxImageWidth: '600',
+                minImageWidth: '300',
+                percentImageWidth: '25',
+                imageSpacing: '15',
             },
             init: function init() {
                 this.title = this.data.meta.title
@@ -6480,7 +6550,7 @@
 
                 this.saving = true
                 this.dirty = false
-                await Gallery.save(this.data.ID, this.title, this.images, this.settings)
+                await Gallery$1.save(this.data.ID, this.title, this.images, this.settings)
                 await new Promise(function (resolve) {
                     return setTimeout(resolve, 1500)
                 })
@@ -6493,8 +6563,9 @@
             },
             updateSetting: function updateSetting(setting, value) {
                 console.log('MetaGallery: Updating ' + setting + ' to:', value)
-                this.dirty = true
-                this.settings[setting] = value
+                this.dirty = true // Currently, no settings can be less than 0
+
+                this.settings[setting] = parseInt(value, 10) < 0 ? 0 : value
                 this.updateLayout()
             },
             updateImageSetting: function updateImageSetting(imageId, setting, value) {
@@ -18140,12 +18211,11 @@
 
     window.CurrentGallery = Current // Load in models
 
-    window.Gallery = Gallery$1
+    window.Gallery = Gallery
     window.GalleryImage = GalleryImage // Register image sources
 
     window.MediaLibrary = MediaLibrary // Start Alpine and pause the global observer
 
-    window.Alpine = alpine
     window.Alpine.pauseMutationObserver = true
     window.Muuri = Grid // GalleryAPI.all().then(({ data }) => {
     //     console.log(data)

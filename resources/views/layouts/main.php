@@ -21,7 +21,7 @@ if (!defined('ABSPATH')) {
     :class="{ 'md:fixed' : $component('settings').fullScreen }">
 
     <?php require METAGALLERY_PATH . 'resources/views/toolbar.php'; ?>
-    <?php require METAGALLERY_PATH . 'resources/views/parts/breadcrumbs.php'; ?>
+    <?php require METAGALLERY_PATH . 'resources/views/toolbar2.php'; ?>
 
     <?php
     if ($view) {

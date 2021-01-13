@@ -6,7 +6,7 @@ export default function Gallery() {
         init() {
             this.images = JSON.parse(JSON.stringify(this.$component('current').images))
             if (!this.images.length) return
-            window.metagalleryGrid = new window.Muuri(`[x-id=metagallery-grid-${this.$component('current').data.ID}]`, {
+            window.metagalleryGrid = new window.Muuri(`[id=metagallery-grid-${this.$component('current').data.ID}]`, {
                 items: this.images.map((i) => this.buildImage(i)),
                 dragSortPredicate: {
                     action: 'move',
@@ -14,11 +14,17 @@ export default function Gallery() {
                 dragEnabled: true,
                 layout: {
                     fillGaps: true,
+                    // horizontal: true,
                 },
             })
             window.metagalleryGrid.on('move', (_data) => {
                 this.$component('current').dirty = true
             })
+        },
+        get containerStyles() {
+            return `
+                margin: 0 -${this.$component('current').settings.imageSpacing}px;
+            `
         },
         addImages(images) {
             if (!window.metagalleryGrid) {

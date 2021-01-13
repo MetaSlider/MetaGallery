@@ -58,6 +58,7 @@
         <exclude name="WordPress.Arrays.ArrayKeySpacingRestrictions.NoSpacesAroundArrayKeys" />
         <exclude name="WordPress.PHP.YodaConditions.NotYoda" />
         <exclude name="WordPress.NamingConventions.ValidFunctionName.FunctionNameInvalid" />
+        <exclude name="WordPress.NamingConventions.ValidVariableName.InterpolatedVariableNotSnakeCase" />
     </rule>
 
     <rule ref="Generic">
@@ -101,6 +102,7 @@
         <exclude name="Squiz.PHP.DisallowComparisonAssignment.AssignedComparison" />
         <exclude name="Squiz.PHP.DiscouragedFunctions.Discouraged" />
         <exclude name="Squiz.Functions.GlobalFunction.Found" />
+        <exclude name="Squiz.PHP.EmbeddedPhp.ContentBeforeEnd" />
     </rule>
     <rule ref="PEAR">
         <exclude name="PEAR.Functions.FunctionCallSignature.CloseBracketLine" />

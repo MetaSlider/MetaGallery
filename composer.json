@@ -4,13 +4,13 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "require": {
-        "php": ">=7.3"
     },
     "require-dev": {
         "johnpbloch/wordpress-core": "*",
         "phpunit/phpunit": "^9.4",
         "dealerdirect/phpcodesniffer-composer-installer": "^0.7",
-        "phpcompatibility/phpcompatibility-wp": "*"
+        "phpcompatibility/phpcompatibility-wp": "*",
+        "spatie/ray": "^1.1"
     },
     "autoload": {
         "psr-4": {

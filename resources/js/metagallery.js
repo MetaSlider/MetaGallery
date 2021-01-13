@@ -1,6 +1,7 @@
-import { component } from 'alpine-magic-helpers'
-import Alpine from 'alpinejs'
-import { Gallery as GalleryAPI } from './api'
+import 'alpine-magic-helpers'
+import '@ryangjchandler/alpine-clipboard'
+import 'alpinejs'
+// import { Gallery as GalleryAPI } from './api'
 import { MediaLibrary } from './sources'
 import { Gallery as GalleryModel, GalleryImage } from './models'
 import { Current } from './state'
@@ -28,7 +29,6 @@ window.GalleryImage = GalleryImage
 window.MediaLibrary = MediaLibrary
 
 // Start Alpine and pause the global observer
-window.Alpine = Alpine
 window.Alpine.pauseMutationObserver = true
 window.Muuri = Muuri
 

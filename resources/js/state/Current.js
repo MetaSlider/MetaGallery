@@ -18,7 +18,10 @@ export default function Current(data) {
             },
         ],
         settings: {
-            maxImageWidth: '300',
+            maxImageWidth: '600',
+            minImageWidth: '300',
+            percentImageWidth: '25',
+            imageSpacing: '15',
         },
         init() {
             this.title = this.data.meta.title
@@ -47,7 +50,8 @@ export default function Current(data) {
         updateSetting(setting, value) {
             console.log(`MetaGallery: Updating ${setting} to:`, value)
             this.dirty = true
-            this.settings[setting] = value
+            // Currently, no settings can be less than 0
+            this.settings[setting] = parseInt(value, 10) < 0 ? 0 : value
             this.updateLayout()
         },
         updateImageSetting(imageId, setting, value) {

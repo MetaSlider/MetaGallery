@@ -48,15 +48,57 @@ if (!defined('ABSPATH')) {
             </h2>
             <div>
                 <?php require METAGALLERY_PATH . 'resources/views/parts/notice-in-settings.php'; ?>
-                <div class="text-sm leading-none">
+                <div class="text-sm leading-none mb-4">
                     <label for="image-max-width" class="font-medium mb-1 block text-nord0">
-                        <?php \esc_html_e('Image max width', 'metagallery'); ?>
+                        <?php \esc_html_e('Image width (%)', 'metagallery'); ?>
+                    </label>
+                    <div class="mt-1">
+                        <input
+                            type="number"
+                            :value="$component('current').settings.percentImageWidth"
+                            @input.debounce.100="$component('current').updateSetting('percentImageWidth', $event.target.value)"
+                            name="image-max-width"
+                            id="image-max-width"
+                            class="shadow-sm focus:ring-nord9 focus:border-nord9 block w-full sm:text-sm border-nord3 rounded-md">
+                    </div>
+                </div>
+                <div class="text-sm leading-none mb-4">
+                    <label for="image-max-width" class="font-medium mb-1 block text-nord0">
+                        <?php \esc_html_e('Image max width (px)', 'metagallery'); ?>
                     </label>
                     <div class="mt-1">
                         <input
                             type="number"
                             :value="$component('current').settings.maxImageWidth"
                             @input.debounce.100="$component('current').updateSetting('maxImageWidth', $event.target.value)"
+                            name="image-max-width"
+                            id="image-max-width"
+                            class="shadow-sm focus:ring-nord9 focus:border-nord9 block w-full sm:text-sm border-nord3 rounded-md">
+                    </div>
+                </div>
+                <div class="text-sm leading-none mb-4">
+                    <label for="image-min-width" class="font-medium mb-1 block text-nord0">
+                        <?php \esc_html_e('Image min width (px)', 'metagallery'); ?>
+                    </label>
+                    <div class="mt-1">
+                        <input
+                            type="number"
+                            :value="$component('current').settings.minImageWidth"
+                            @input.debounce.100="$component('current').updateSetting('minImageWidth', $event.target.value)"
+                            name="image-max-width"
+                            id="image-max-width"
+                            class="shadow-sm focus:ring-nord9 focus:border-nord9 block w-full sm:text-sm border-nord3 rounded-md">
+                    </div>
+                </div>
+                <div class="text-sm leading-none mb-4">
+                    <label for="image-max-width" class="font-medium mb-1 block text-nord0">
+                        <?php \esc_html_e('Spacing (px)', 'metagallery'); ?>
+                    </label>
+                    <div class="mt-1">
+                        <input
+                            type="number"
+                            :value="$component('current').settings.imageSpacing"
+                            @input.debounce.100="$component('current').updateSetting('imageSpacing', $event.target.value)"
                             name="image-max-width"
                             id="image-max-width"
                             class="shadow-sm focus:ring-nord9 focus:border-nord9 block w-full sm:text-sm border-nord3 rounded-md">

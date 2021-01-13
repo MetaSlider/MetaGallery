@@ -8,7 +8,7 @@ if (!defined('ABSPATH')) {
 }
 
 ?>
-<nav class="flex p-4 bg-nord5" aria-label="Breadcrumb">
+<nav class="" aria-label="Breadcrumb">
     <ol class="flex items-center space-x-2">
         <li class="m-0">
             <div class="flex items-center">
@@ -36,7 +36,7 @@ if (!defined('ABSPATH')) {
                     @keydown.escape.stop="$event.target.blur()"
                     @input="$component('current').updateTitle($event.target.textContent)"
                     x-text="$component('current').title || '<?php \esc_html_e('Title not set', 'metagallery'); ?>'"
-                    class="hover:underline focus:no-underline focus:p-1 focus:px-2 transition duration-200 focus:bg-white focus:outline-none focus:ring ml-2 text-sm font-medium text-gray-500 hover:text-gray-700">
+                    class="hover:underline focus:no-underline focus:p-1 focus:px-2 transition duration-200 focus:bg-white focus:outline-none focus:ring ml-2 text-sm font-medium text-nord3">
                 </span>
             </div>
         </li>

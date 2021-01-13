@@ -35,7 +35,7 @@ class Shortcode
                 }
 
                 $this->addStyles();
-                $this->addScripts();
+                $this->addScripts($metagallery->ID);
 
                 ob_start();
                 View::shortcode($metagallery);
@@ -65,16 +65,18 @@ class Shortcode
      * Add scripts
      *
      * @since 0.1.0
+     * @param int $galleryId - The ID of the gallery to initialize.
      * @return void
      */
-    public function addScripts()
+    public function addScripts($galleryId)
     {
         \wp_enqueue_script(
-            App::$slug . '-alpine',
+            App::$slug . '-scripts',
             METAGALLERY_BASE_URL . 'public/build/metagallery-scripts.js',
             [],
             App::$version,
             true
         );
+        \wp_add_inline_script(App::$slug . '-scripts', "new window.MetaGallery('#metagallery-{$galleryId}')");
     }
 }

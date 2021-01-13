@@ -11576,5 +11576,5 @@
             })(a)
     })()
 
-    window.Muuri = Grid
+    window.MetaGallery = Grid
 })
