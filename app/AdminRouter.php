@@ -279,7 +279,7 @@ class AdminRouter
     public function checkAdminPageIsOurs($hook = '')
     {
         if ($hook) {
-            return ('toplevel_page_' . App::$slug === $hook);
+            return stripos($hook, App::$slug) > -1;
         }
 
         // phpcs:ignore WordPress.Security.NonceVerification.Recommended
@@ -371,7 +371,7 @@ class AdminRouter
                 margin-top: 10px !important;
             }
             .wp-has-submenu a[href="admin.php?page=metagallery"]::after {
-                content: 'NEW';
+                content: 'BETA';
                 font-size: 10px;
                 margin-left: 5px;
                 color: #dfff34;
