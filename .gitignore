@@ -1,6 +1,7 @@
 .DS_Store
 vendor/*
 !vendor/composer
+!vendor/symfony
 !vendor/autoload.php
 node_modules
 
