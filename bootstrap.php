@@ -14,7 +14,9 @@ if (!defined('METAGALLERY_PATH')) {
     define('METAGALLERY_PATH', \plugin_dir_path(__FILE__));
 }
 
-require METAGALLERY_PATH . 'vendor/autoload.php';
+if (is_readable(METAGALLERY_PATH . 'vendor/autoload.php')) {
+    require METAGALLERY_PATH . 'vendor/autoload.php';
+}
 
 if (!defined('METAGALLERY_TEXTDOMAIN')) {
     define('METAGALLERY_TEXTDOMAIN', 'metagallery');

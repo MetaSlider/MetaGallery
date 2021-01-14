@@ -80,13 +80,6 @@ jobs:
       - name: Build assets
         run: npm run build
 
-      - name: Commit build folder if needed #it fails if nothing has changed so we allow an error
-        run: git commit -am 'Build Production Assets'
-        continue-on-error: true
-
-      - name: Push changed files to master
-        run: git push
-
       - name: Start MySQL server
         run: sudo service mysql start
 
@@ -111,11 +104,24 @@ jobs:
           cd ${{ github.workspace }}
           # sudo mkdir -p /usr/src/wordpress/wp-content/mu-plugins
           # sudo mv ${{ github.workspace }}/.github/workflows/support/bypass-login.php /usr/src/wordpress/wp-content/mu-plugins
-          cp -R ${{ github.workspace }} /usr/src/wordpress/wp-content/plugins/testing-wp-install
-          sudo rm -rf /usr/src/wordpress/wp-content/plugins/testing-wp-install/cypress
+          cp -R ${{ github.workspace }} /usr/src/wordpress/wp-content/plugins/my-plugin
+          sudo rm -rf /usr/src/wordpress/wp-content/plugins/my-plugin/cypress
           sudo mv /usr/src/wordpress/* ${{ github.workspace }}
         env:
           WP_VERSION: ${{ matrix.wp }}
+
+      - name: Install dependencies
+        run: |
+            rm -rf ${{ github.workspace }}/vendor
+            rm ${{ github.workspace }}/composer.lock
+            composer install --prefer-dist --no-dev --no-progress --no-suggest
+
+      - name: Commit build folder if needed #it fails if nothing has changed so we allow an error
+        run: git commit -am 'Bundle up plugin'
+        continue-on-error: true
+
+      - name: Push changed files to master
+        run: git push
 
       - name: Start PHP server
         run: nohup php -S localhost:8080 > php.log 2>&1 &
