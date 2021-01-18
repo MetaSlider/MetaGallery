@@ -26,6 +26,9 @@ class GalleryController
      */
     public function start()
     {
+        if (!\get_option('metagallery_opened')) {
+            \update_option('metagallery_opened', true);
+        }
         return View::queue('start', 'landing');
     }
 

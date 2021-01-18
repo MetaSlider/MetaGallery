@@ -19,7 +19,7 @@ export default function Current(data) {
         ],
         settings: {
             maxImageWidth: '600',
-            minImageWidth: '300',
+            minImageWidth: '315',
             percentImageWidth: '25',
             imageSpacing: '15',
         },

@@ -243,7 +243,7 @@ class AdminRouter
         $addPage = $this->parent ? '\add_submenu_page' : '\add_menu_page';
         $args = [
             App::$name,
-            App::$name,
+            'Gallery',
             App::$capability,
             App::$slug,
             '\Extendify\MetaGallery\View::admin',

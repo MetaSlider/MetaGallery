@@ -114,7 +114,7 @@ jobs:
         run: |
             rm -rf ${{ github.workspace }}/vendor
             rm ${{ github.workspace }}/composer.lock
-            composer install --prefer-dist --no-dev --no-progress --no-suggest
+            composer install --prefer-dist --no-dev --no-progress
 
       - name: Commit build folder if needed #it fails if nothing has changed so we allow an error
         run: git commit -am 'Bundle up plugin'

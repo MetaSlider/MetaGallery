@@ -29,7 +29,7 @@ printf(
             2. No jQuery unless required to interact with WP
             3. Keep the project open for extention. Try not to close up the code or lock in.
         -->
-        <h3 class="mb-3"><?php \esc_html_e('MetaGallery will be built following these principles:', 'metagallery'); ?></h3>
+        <h3 class="mb-3"><?php \esc_html_e('We are building the gallery following these principles:', 'metagallery'); ?></h3>
         <ul>
             <li>
             <?php
