@@ -8,20 +8,6 @@ if (!defined('ABSPATH')) {
 }
 ?>
 
-<!-- TODO:
-1. show via shortcode
-
-Sooner
-1. Hold off on captions for initial release
-
-1. Add muuri config override
-1. add indiviual image output override? maybe!
-
-Later:
-1. Per image re-sizing?
-1. Add unpublish option (publish by default)
--->
-
 <div
     x-title="Images"
     x-data="Gallery()"
