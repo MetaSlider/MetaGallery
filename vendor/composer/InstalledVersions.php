@@ -29,7 +29,7 @@ private static $installed = array (
     'aliases' => 
     array (
     ),
-    'reference' => 'ad209c0a651ee88ff88af63a418386d14ee30a69',
+    'reference' => 'b3c386a77fa40de31b60b5c8dd687c9db4c220a7',
     'name' => 'extendify/metagallery',
   ),
   'versions' => 
@@ -68,7 +68,7 @@ private static $installed = array (
       'aliases' => 
       array (
       ),
-      'reference' => 'ad209c0a651ee88ff88af63a418386d14ee30a69',
+      'reference' => 'b3c386a77fa40de31b60b5c8dd687c9db4c220a7',
     ),
     'johnpbloch/wordpress-core' => 
     array (

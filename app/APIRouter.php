@@ -40,7 +40,7 @@ class APIRouter extends \WP_REST_Controller
      *
      * @return boolean
      */
-    public function permission(string $capability)
+    public function permission($capability)
     {
         $this->capability = $capability;
         return $this;
@@ -70,7 +70,7 @@ class APIRouter extends \WP_REST_Controller
      *
      * @return void
      */
-    public function getHandler(string $namespace, string $endpoint, $callback)
+    public function getHandler($namespace, $endpoint, $callback)
     {
         \register_rest_route(
             $namespace,
@@ -83,7 +83,7 @@ class APIRouter extends \WP_REST_Controller
                     'checkPermission',
                 ],
             ],
-            true,
+            true
         );
     }
 
@@ -96,7 +96,7 @@ class APIRouter extends \WP_REST_Controller
      *
      * @return void
      */
-    public function postHandler(string $namespace, string $endpoint, $callback)
+    public function postHandler($namespace, $endpoint, $callback)
     {
         \register_rest_route(
             $namespace,
@@ -109,7 +109,7 @@ class APIRouter extends \WP_REST_Controller
                     'checkPermission',
                 ],
             ],
-            true,
+            true
         );
     }
 
@@ -122,7 +122,7 @@ class APIRouter extends \WP_REST_Controller
      *
      * @return void
      */
-    public function putHandler(string $namespace, string $endpoint, $callback)
+    public function putHandler($namespace, $endpoint, $callback)
     {
     }
 }

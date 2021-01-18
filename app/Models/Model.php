@@ -171,7 +171,7 @@ abstract class Model
     {
         $this->postsPerPage = 1;
         $query = $this->query();
-        return $query[0] ?? $query;
+        return isset($query[0]) ? $query[0] : $query;
     }
 
     /**

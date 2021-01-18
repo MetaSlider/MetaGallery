@@ -36,7 +36,7 @@ if (!class_exists('MetaGallery')) :
         public function __invoke()
         {
             // TODO: Maybe load an "upgrade your PHP" page instead?
-            if (version_compare(PHP_VERSION, '7.3.0', '<')) {
+            if (version_compare(PHP_VERSION, '5.6', '<') || version_compare($GLOBALS['wp_version'], '5.5', '<')) {
                 return;
             }
 

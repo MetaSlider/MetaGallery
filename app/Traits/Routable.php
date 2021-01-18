@@ -33,7 +33,7 @@ trait Routable
      *
      * @return mixed
      */
-    abstract public function getHandler(string $namespace, string $endpoint, $callback);
+    abstract public function getHandler($namespace, $endpoint, $callback);
 
     /**
      * The handler for post requests
@@ -44,7 +44,7 @@ trait Routable
      *
      * @return mixed
      */
-    abstract public function postHandler(string $namespace, string $endpoint, $callback);
+    abstract public function postHandler($namespace, $endpoint, $callback);
 
     /**
      * The handler for put requests
@@ -55,7 +55,7 @@ trait Routable
      *
      * @return mixed
      */
-    abstract public function putHandler(string $namespace, string $endpoint, $callback);
+    abstract public function putHandler($namespace, $endpoint, $callback);
 
     /**
      * The caller
@@ -65,7 +65,7 @@ trait Routable
      *
      * @return mixed
      */
-    public static function __callStatic(string $name, array $arguments)
+    public static function __callStatic($name, array $arguments)
     {
         $name = "{$name}Handler";
         if (is_null(self::$instance)) {

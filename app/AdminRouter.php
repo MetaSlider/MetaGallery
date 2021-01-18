@@ -63,7 +63,7 @@ class AdminRouter
      *
      * @return void
      */
-    public function getHandler(string $namespace, string $endpoint, $callback)
+    public function getHandler($namespace, $endpoint, $callback)
     {
         // Convert Object::class to [Object::class, ''] to match [Object, method].
         if (is_string($callback)) {
@@ -85,7 +85,7 @@ class AdminRouter
      *
      * @return void
      */
-    public function postHandler(string $namespace, string $endpoint, $callback)
+    public function postHandler($namespace, $endpoint, $callback)
     {
         // Convert Object::class to [Object::class, ''] to match [Object, method].
         if (is_string($callback)) {
@@ -107,7 +107,7 @@ class AdminRouter
      *
      * @return void
      */
-    public function putHandler(string $namespace, string $endpoint, $callback)
+    public function putHandler($namespace, $endpoint, $callback)
     {
     }
 
@@ -132,7 +132,7 @@ class AdminRouter
         $request = new \WP_REST_Request(
             \sanitize_text_field(\wp_unslash($_SERVER['REQUEST_METHOD'])),
             // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-            \esc_url(\admin_url('admin.php?page=' . METAGALLERY_PAGE_NAME . '&route=' . \sanitize_text_field(\wp_unslash($_GET['route'])))),
+            \esc_url(\admin_url('admin.php?page=' . METAGALLERY_PAGE_NAME . '&route=' . \sanitize_text_field(\wp_unslash($_GET['route']))))
         );
         // phpcs:ignore WordPress.Security.NonceVerification.Recommended,WordPress.Security.NonceVerification.Missing
         $request->set_body_params($request->get_method() === 'GET' ? $_GET : $_POST);

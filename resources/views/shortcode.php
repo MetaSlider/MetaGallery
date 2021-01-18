@@ -18,7 +18,7 @@ $metagallery = isset($data[0]->meta) ? $data[0]->meta : [];
 // I don't think it's wise to rely on WP long term as many other plugins interact.
 // Or maybe we keep it simple and run EVERYTHING through WP.
 if (isset($metagallery['images'])) {
-    // Settings with defaults. Could probably start extracting to a helper class. Maybe remove the ";" too
+    // Settings with defaults. Could probably start extracting to a helper class. Maybe remove the ";" too.
     $metagalleryMaxWidth = isset($metagallery['settings']['maxImageWidth']) ? $metagallery['settings']['maxImageWidth'] : 'full';
     $metagalleryMaxWidthInline = isset($metagallery['settings']['maxImageWidth']) ? $metagallery['settings']['maxImageWidth'] . 'px;' : 'auto;';
     $metagalleryMinWidthInline = isset($metagallery['settings']['minImageWidth']) ? $metagallery['settings']['minImageWidth'] . 'px;' : 'auto;';
