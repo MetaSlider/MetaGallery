@@ -182,7 +182,9 @@ class GalleryController
 
         // API request.
         if ($request->get_header('x_requested_with') === 'XMLHttpRequest') {
-            return (Gallery::get()->where(['p' => $id])->query())[0];
+            $g = Gallery::get()->where(['p' => $id])->query();
+            // TODO: fail better.
+            return isset($g[0]) ? $g[0] : [];
         }
 
         \wp_safe_redirect(

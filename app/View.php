@@ -57,9 +57,10 @@ class View
             self::$instance = new self();
         }
 
-        (self::$instance)->queuedView = $view;
-        (self::$instance)->queuedLayout = $layout;
-        (self::$instance)->queuedData = $data;
+        $v = self::$instance;
+        $v->queuedView = $view;
+        $v->queuedLayout = $layout;
+        $v->queuedData = $data;
     }
 
     /**
@@ -72,12 +73,13 @@ class View
      */
     public static function admin()
     {
-        if (self::$instance) {
+        $v = self::$instance;
+        if ($v) {
             // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.FoundAfterLastUsed
-            $data = (self::$instance)->queuedData;
+            $data = $v->queuedData;
             // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.FoundAfterLastUsed
-            $view = (self::$instance)->queuedView;
-            $layout = (self::$instance)->queuedLayout;
+            $view = $v->queuedView;
+            $layout = $v->queuedLayout;
 
             include METAGALLERY_PATH . "resources/views/layouts/{$layout}.php";
             return;

@@ -72,6 +72,7 @@ trait Routable
             self::$instance = new static();
         }
 
-        return (self::$instance)->$name(...$arguments);
+        $r = self::$instance;
+        return $r->$name(...$arguments);
     }
 }
