@@ -1109,16 +1109,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "9.5.0",
+            "version": "9.5.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "8e16c225d57c3d6808014df6b1dd7598d0a5bbbe"
+                "reference": "e7bdf4085de85a825f4424eae52c99a1cec2f360"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/8e16c225d57c3d6808014df6b1dd7598d0a5bbbe",
-                "reference": "8e16c225d57c3d6808014df6b1dd7598d0a5bbbe",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/e7bdf4085de85a825f4424eae52c99a1cec2f360",
+                "reference": "e7bdf4085de85a825f4424eae52c99a1cec2f360",
                 "shasum": ""
             },
             "require": {
@@ -1204,7 +1204,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2020-12-04T05:05:53+00:00"
+            "time": "2021-01-17T07:42:25+00:00"
         },
         {
             "name": "psr/container",
@@ -2417,16 +2417,16 @@
         },
         {
             "name": "spatie/ray",
-            "version": "1.8.0",
+            "version": "1.11.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/ray.git",
-                "reference": "d229fd4ccd8f4ed39ddb628d3d788812cc6c1851"
+                "reference": "aa7f098a954ce60492388c8ce52e4b6362d83c9c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/ray/zipball/d229fd4ccd8f4ed39ddb628d3d788812cc6c1851",
-                "reference": "d229fd4ccd8f4ed39ddb628d3d788812cc6c1851",
+                "url": "https://api.github.com/repos/spatie/ray/zipball/aa7f098a954ce60492388c8ce52e4b6362d83c9c",
+                "reference": "aa7f098a954ce60492388c8ce52e4b6362d83c9c",
                 "shasum": ""
             },
             "require": {
@@ -2481,7 +2481,7 @@
                     "type": "other"
                 }
             ],
-            "time": "2021-01-14T12:19:54+00:00"
+            "time": "2021-01-15T13:11:53+00:00"
         },
         {
             "name": "squizlabs/php_codesniffer",
