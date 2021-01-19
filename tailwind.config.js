@@ -3,6 +3,9 @@ module.exports = {
     purge: {
         enabled: process.env.BUILD === 'production',
         content: ['resources/views/**/*.php', 'resources/js/**/*.js'],
+        options: {
+            safelist: [/bg-nord*/],
+        },
     },
     darkMode: 'class',
     theme: {
