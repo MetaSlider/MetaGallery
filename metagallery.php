@@ -11,7 +11,7 @@ if (!defined('ABSPATH')) {
     die('No direct access.');
 }
 
-if (!class_exists('MetaGallery')) :
+if (!class_exists('ExtendifyMetaGallery')) :
     // phpcs:disable
     // Squiz.Classes.ClassFileName.NoMatch
     /**
