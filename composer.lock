@@ -2417,16 +2417,16 @@
         },
         {
             "name": "spatie/ray",
-            "version": "1.11.0",
+            "version": "1.12.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/ray.git",
-                "reference": "aa7f098a954ce60492388c8ce52e4b6362d83c9c"
+                "reference": "14e29ea903253910e6aef5aaf927c9cbb7b33a60"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/ray/zipball/aa7f098a954ce60492388c8ce52e4b6362d83c9c",
-                "reference": "aa7f098a954ce60492388c8ce52e4b6362d83c9c",
+                "url": "https://api.github.com/repos/spatie/ray/zipball/14e29ea903253910e6aef5aaf927c9cbb7b33a60",
+                "reference": "14e29ea903253910e6aef5aaf927c9cbb7b33a60",
                 "shasum": ""
             },
             "require": {
@@ -2436,13 +2436,15 @@
                 "ramsey/uuid": "^3.0|^4.1",
                 "spatie/backtrace": "^1.0",
                 "spatie/macroable": "^1.0",
-                "symfony/stopwatch": "^4.2|^5.2",
-                "symfony/var-dumper": "^4.2|^5.2"
+                "symfony/stopwatch": "^5.1",
+                "symfony/var-dumper": "^4.2|^5.1"
             },
             "require-dev": {
                 "illuminate/support": "6.x|^8.18",
+                "nesbot/carbon": "^2.43",
                 "phpunit/phpunit": "^9.5",
-                "spatie/phpunit-snapshot-assertions": "^4.2"
+                "spatie/phpunit-snapshot-assertions": "^4.2",
+                "spatie/test-time": "^1.2"
             },
             "type": "library",
             "autoload": {
@@ -2481,7 +2483,7 @@
                     "type": "other"
                 }
             ],
-            "time": "2021-01-15T13:11:53+00:00"
+            "time": "2021-01-18T16:28:43+00:00"
         },
         {
             "name": "squizlabs/php_codesniffer",
