@@ -76,7 +76,7 @@ class App
         $readme = file_get_contents(dirname(__DIR__) . '/readme.txt');
 
         preg_match('/=== (.+) ===/', $readme, $matches);
-        self::$name = $matches[1];
+        self::$name = isset($matches[1]) ? $matches[1] : 'MetaGallery';
         self::$slug = strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', self::$name), '-'));
 
         preg_match('/Stable tag: ([0-9.:]+)/', $readme, $matches);
