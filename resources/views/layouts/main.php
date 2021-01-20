@@ -15,7 +15,7 @@ if (!defined('ABSPATH')) {
         lastRefresh: Date.now(),
         get adminBarHeight() { return document.getElementById('wpadminbar').scrollHeight }
     }"
-    class="metagallery-allowed z-high bg-nord6 font-body inset-0 text-base w-full flex flex-col"
+    class="metagallery-allowed z-high bg-nord6 font-body inset-0 text-base w-full flex flex-col overflow-hidden"
     :style="`min-height:calc(100vh - ${adminBarHeight}px)`"
     @resize.window.debounce.200="lastRefresh = Date.now()"
     :class="{ 'md:fixed' : $component('settings').fullScreen }">
