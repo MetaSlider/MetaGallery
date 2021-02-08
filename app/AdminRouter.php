@@ -18,13 +18,6 @@ class AdminRouter
     use Routable;
 
     /**
-     * The instance.
-     *
-     * @var $instance
-     */
-    protected static $instance = null;
-
-    /**
      * The parent page
      *
      * @var $parent
