@@ -1,4 +1,4 @@
-import 'alpine-magic-helpers'
+import 'alpine-magic-helpers/dist/component'
 import '@ryangjchandler/alpine-clipboard'
 import 'alpinejs'
 // import { Gallery as GalleryAPI } from './api'
