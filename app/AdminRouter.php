@@ -186,6 +186,22 @@ class AdminRouter
         );
 
         \add_action(
+            'init',
+            function() {
+                // First, unload textdomain - Based on https://core.trac.wordpress.org/ticket/34213#comment:26
+                unload_textdomain('metagallery');
+
+                // Call the core translations from plugins languages/ folder
+                if (file_exists(__DIR__ . '/../languages/' . 'metagallery' . '-' . get_locale() . '.mo')) {
+                    load_textdomain(
+                        'metagallery',
+                        __DIR__ . '/../languages/' . 'metagallery' . '-' . get_locale() . '.mo'
+                    );
+                }
+            }
+        );
+
+        \add_action(
             'admin_enqueue_scripts',
             function ($hook) {
                 $this->addGlobalScriptsAndStyles();
@@ -306,7 +322,7 @@ class AdminRouter
         );
         \wp_enqueue_script(App::$slug . '-scripts');
 
-        \wp_set_script_translations(App::$slug . '-scripts', App::$textDomain);
+        \wp_set_script_translations(App::$slug . '-scripts', App::$textDomain, __DIR__ . '/../languages');
 
         \wp_enqueue_style(
             App::$slug . '-theme',
