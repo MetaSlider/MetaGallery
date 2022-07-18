@@ -322,7 +322,9 @@ class AdminRouter
         );
         \wp_enqueue_script(App::$slug . '-scripts');
 
-        \wp_set_script_translations(App::$slug . '-scripts', App::$textDomain, __DIR__ . '/../languages');
+        if (function_exists('wp_set_script_translations')) {
+            \wp_set_script_translations(App::$slug . '-scripts', App::$textDomain, __DIR__ . '/../languages');
+        }
 
         \wp_enqueue_style(
             App::$slug . '-theme',
