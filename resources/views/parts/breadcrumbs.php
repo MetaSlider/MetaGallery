@@ -1,4 +1,5 @@
 <?php
+
 /**
  * The breadcrumbs component
  */
@@ -7,6 +8,14 @@ if (!defined('ABSPATH')) {
     die('No direct access.');
 }
 
+$redirect = add_query_arg(
+    [
+        'page' => METAGALLERY_PAGE_NAME,
+        'route' => 'archive'
+    ],
+    \admin_url('admin.php')
+);
+
 ?>
 <nav class="" aria-label="Breadcrumb">
     <ol class="flex items-center space-x-2">
@@ -14,7 +23,7 @@ if (!defined('ABSPATH')) {
             <div class="flex items-center">
                 <a
                 title="<?php \esc_html_e('View all galleries', 'metagallery'); ?>"
-                href="<?php echo \esc_url(\admin_url('admin.php?page=' . METAGALLERY_PAGE_NAME . '&route=archive')); ?>"
+                href="<?php echo \esc_url($redirect); ?>"
                 class="text-sm font-medium text-nord3 hover:underline focus:outline-none focus:ring"><?php \esc_html_e('Galleries', 'metagallery'); ?></a>
             </div>
         </li>

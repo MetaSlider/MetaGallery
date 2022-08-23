@@ -1,8 +1,6 @@
 .DS_Store
-vendor/*
-!vendor/composer
-!vendor/autoload.php
-node_modules
+vendor/
+node_modules/
 
 cypress/integration/examples
 cypress/screenshots/**/*
@@ -11,3 +9,4 @@ cypress/videos/**/*
 !cypress/videos/.gitkeep
 
 wpcs
+.idea/

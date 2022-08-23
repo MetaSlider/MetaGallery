@@ -23,5 +23,10 @@
             "name": "Kevin Batdorf",
             "email": "kbat82@gmail.com"
         }
-    ]
+    ],
+    "config": {
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        }
+    }
 }
