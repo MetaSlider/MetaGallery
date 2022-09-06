@@ -22,7 +22,7 @@ $redirect = add_query_arg(
         <li class="m-0">
             <div class="flex items-center">
                 <a
-                title="<?php \esc_html_e('View all galleries', 'metagallery'); ?>"
+                title="<?php \esc_attr_e('View all galleries', 'metagallery'); ?>"
                 href="<?php echo \esc_url($redirect); ?>"
                 class="text-sm font-medium text-nord3 hover:underline focus:outline-none focus:ring"><?php \esc_html_e('Galleries', 'metagallery'); ?></a>
             </div>
@@ -35,8 +35,8 @@ $redirect = add_query_arg(
                 <span
                     x-data="{ editing: false }"
                     x-title="Gallery Title"
-                    aria-label="<?php \esc_html_e('Focus to edit the title', 'metagallery'); ?>"
-                    title="<?php \esc_html_e('Press to edit the title', 'metagallery'); ?>"
+                    aria-label="<?php \esc_attr_e('Focus to edit the title', 'metagallery'); ?>"
+                    title="<?php \esc_attr_e('Press to edit the title', 'metagallery'); ?>"
                     :contenteditable="editing.toString()"
                     @focus="editing = true;$nextTick(() => document.execCommand('selectAll',false,null))"
                     @blur="editing = false"
@@ -44,7 +44,7 @@ $redirect = add_query_arg(
                     @keydown.enter.stop="$event.target.blur()"
                     @keydown.escape.stop="$event.target.blur()"
                     @input="$component('current').updateTitle($event.target.textContent)"
-                    x-text="$component('current').title || '<?php \esc_html_e('Title not set', 'metagallery'); ?>'"
+                    x-text="$component('current').title || '<?php \esc_attr_e('Title not set', 'metagallery'); ?>'"
                     class="cursor-pointer hover:underline focus:no-underline focus:p-1 focus:px-2 transition duration-200 focus:bg-white focus:outline-none focus:ring ml-2 text-sm font-medium text-nord3">
                 </span>
             </div>

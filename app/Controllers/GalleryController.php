@@ -192,7 +192,7 @@ class GalleryController
         if (is_array($value) && ! empty($value)) {
             $defaultValuesByKey = [
                 'maxImageWidth' => 600,
-                'minImageWidth' => 315,
+                'minImageWidth'=> 315,
                 'percentImageWidth' => 25,
                 'imageSpacing' => 0
             ];

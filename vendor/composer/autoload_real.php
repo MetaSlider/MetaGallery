@@ -31,25 +31,6 @@ class ComposerAutoloaderInit568a9281d355f7204586980229323037
 
         $loader->register(true);
 
-        $includeFiles = \Composer\Autoload\ComposerStaticInit568a9281d355f7204586980229323037::$files;
-        foreach ($includeFiles as $fileIdentifier => $file) {
-            composerRequire568a9281d355f7204586980229323037($fileIdentifier, $file);
-        }
-
         return $loader;
-    }
-}
-
-/**
- * @param string $fileIdentifier
- * @param string $file
- * @return void
- */
-function composerRequire568a9281d355f7204586980229323037($fileIdentifier, $file)
-{
-    if (empty($GLOBALS['__composer_autoload_files'][$fileIdentifier])) {
-        $GLOBALS['__composer_autoload_files'][$fileIdentifier] = true;
-
-        require $file;
     }
 }
